@@ -8,7 +8,9 @@ per=PW/PRI;
 N=PRI*RF;
 t=linspace(0,5*PRI,20*N);
 y1=(1+square(2*pi*t/PRI,100*per))/2;
+% plot(t,y1)
 x=(1+sin(1000*pi*RF*t))/2;
+%plot(t,x)
 y=y1.*x;
 subplot(211);
 plot(t,y);
