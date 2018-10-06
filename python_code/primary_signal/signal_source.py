@@ -19,6 +19,7 @@ class signal_source:
         2、如果类型是频率捷变，传入参数为两个，第一个参数为频率中心，第二个为捷变范围
         3、如果类型是频率分集，就会传入一个频率数组
         4、如果是频率脉组变频，传入的参数为脉组个数和对应频率
+        5、如果是线性调频，传入参数为起始频率，变化范围，捷变范围
         :param PRI_params: 设置重频参数
         1、如果类型是固定重频，只有一个参数为重频
         2、如果是重频参差\抖动，只有一个参数为中心频率，还有参差抖动的范围
@@ -394,7 +395,6 @@ class signal_source:
                         # 重新生成新的频率
                         tmp_fs = signal_fs * (1 + random.random()*signal_fs_range - (signal_fs_range/2))
 
-
     # 生成随机的起始时间
     def get_start_time(self, signal_pri):
         # 随机生成一个小于重频的时间做为起始时间
@@ -422,6 +422,82 @@ class signal_source:
             bias = int(tmp_pluse.begin_time * constValue.system_freq)
             # 叠加到原始信号上
             self.signal[bias: bias+lenght] += tmp_signal
+
+        # 对于线性调频信号单独处理
+        current_time = 0
+        if FS_type(self.FS_type_need) == FS_type.LFM:
+            # 如果是LFM信号，进行模拟信号生成
+            # 此时肯定是固定重频
+            # 参数有两个，起始频率f0，频率变化范围B， K = B/T
+            # 获取重频
+            signal_pri = self.PRI_params[0]
+            # 获取线性调频的相关参数
+            begin_fs = self.FS_params[0]
+            # 线性调频宽度
+            Band = self.FS_params[1]
+            # 起始频率的捷变范围
+            fs_range = self.FS_params[2]
+            # 计算斜率
+            K = Band / self.pw
+            # 获取起始时间
+            current_time = self.get_start_time(signal_pri)
+            while current_time < self.simu_time:
+                tmp_fs = begin_fs*(1+random.random()*fs_range - fs_range/2)
+                tmp_signal = self.get_LFM(tmp_fs, K, self.pw)
+                # 当前生成信号的长度
+                lenght = tmp_signal.shape[0]
+                # 根据当前时间计算偏执
+                bias = int(current_time * constValue.system_freq)
+                # 叠加到原始信号上
+                self.signal[bias: bias+lenght] += tmp_signal
+                # 更新起始时间
+                current_time += self.pw + signal_pri
+        elif FS_type(self.FS_type_need) == FS_type.lager_bandwidth_LFM:
+            # 对于大脉宽信号
+            # 此时肯定是固定重频
+            # 参数有三个，起始频率f0，频率变化范围B， K = B/T， 跨的帧数n
+            # 获取重频
+            signal_pri = self.PRI_params[0]
+            # 获取线性调频的相关参数
+            begin_fs = self.FS_params[0]
+            # 线性调频宽度
+            Band = self.FS_params[1]
+            # 起始频率的捷变范围
+            fs_range = self.FS_params[2]
+            # 帧数
+            fs_frame_number = self.FS_params[3]
+            # 计算斜率
+            K = Band / (self.pw * fs_frame_number)
+            # 获取起始时间
+            current_time = self.get_start_time(signal_pri)
+            # 当前的frame的序号
+            frame_order = 0
+            # 一帧的频率跨度
+            frame_fs_change = Band / fs_frame_number
+            used_fs = begin_fs + frame_fs_change * frame_order
+            while current_time < self.simu_time:
+                tmp_fs = used_fs*(1+random.random()*fs_range - fs_range/2)
+                frame_order += 1
+                tmp_signal = self.get_LFM(tmp_fs, K, self.pw)
+                # 当前生成信号的长度
+                lenght = tmp_signal.shape[0]
+                # 根据当前时间计算偏执
+                bias = int(current_time * constValue.system_freq)
+                # 叠加到原始信号上
+                self.signal[bias: bias+lenght] += tmp_signal
+                # 更新起始时间
+                current_time += self.pw + signal_pri
+
+                # 一组帧已经循环完毕
+                if frame_order == fs_frame_number:
+                    frame_order = 0
+                # 跟新新的当前的起始频率
+                used_fs = begin_fs + frame_fs_change * frame_order
+
+
+
+
+
 
 
     # 增加信道噪声
@@ -458,6 +534,21 @@ class signal_source:
         plt.plot(self.signal[number_begin:number_end])
         plt.show()
 
+    # 进行线性调频信号的生成
+    def get_LFM(self, begin_fs, k, pw):
+        '''
+        :param begin_fs:起始频率
+        :param k: 频率变化斜率
+        :param pw: 信号的脉宽
+        :return:生成的信号
+        计算公式是: sin(2*pi*f0*t + pi*k*t*t)
+        '''
+        # 采样的点数
+        N = pw * constValue.system_freq
+        # 采样时间
+        t = np.linspace(0, pw, N)
+        signal = np.sin(2*np.pi*begin_fs*t + np.pi*k*t*t)
+        return signal
 if __name__ == "__main__":
     pass
 

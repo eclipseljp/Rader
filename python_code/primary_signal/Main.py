@@ -6,7 +6,10 @@ def Main():
     # 生成一个测试信号
     # test_single_signal()
     # 测试多组信号
-    test_mul_signal()
+    #test_mul_signal()
+    # 测试线性调频
+    test_LFM_singal()
+
 
 def test_single_signal():
     # 生成一个测试信号
@@ -55,6 +58,23 @@ def test_mul_signal():
     print("开始写入")
     np.savetxt("..\data\mul.txt", data)
 
+
+# 进行线性调频信号的测试
+def test_LFM_singal():
+    # 频率捷变的LFM
+    test_signal = signal_source(1, 30, 5,  [50, 40, 0.2], 1, [100])
+    # 跨帧的大带宽LFM
+    test_signal = signal_source(1, 30, 6,  [50, 40, 0.2, 4], 1, [100])
+    simu_time = 5000
+    # 生成PDW真值
+    test_signal.get_plus(simu_time)
+    # 生成模拟信号
+    test_signal.get_analog_signal()
+    # 增加环境噪声
+    test_signal.add_channel()
+    test_signal.draw(100000, 1200000)
+    print("开始写入")
+    np.savetxt("..\data\LFM.txt", test_signal.signal)
 
 # 进行多个信号源和合并
 def merge_signal(signals, simu_time):

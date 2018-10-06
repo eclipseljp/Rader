@@ -7,5 +7,5 @@ if __name__ == "__main__":
     # # print(add_data)
     # data[20:40] += add_data
     # print(data)
-    data = np.linespace(1, 100)
-    print(data)
+    t = np.linspace(0, 100, 100)
+    print(5*t*t)
