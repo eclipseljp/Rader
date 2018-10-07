@@ -10,6 +10,11 @@ def Main():
     # 测试线性调频
     test_LFM_singal()
 
+def get_signals():
+    '''
+    使用该函数产生需要的信号
+    :return:
+    '''
 
 def test_single_signal():
     # 生成一个测试信号
