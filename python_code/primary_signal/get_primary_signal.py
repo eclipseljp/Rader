@@ -12,7 +12,8 @@ class priamry_signal:
         :return:
         '''
         self.signals = signals
-        self.simutime = simutime
+        self.simu_time = simutime
+        self.merge_signal()
 
     def merge_signal(self):
         # 进行多个信号源和合并
@@ -53,9 +54,9 @@ class priamry_signal:
         :return:
         '''
         # 起始的点
-        begin_number = begin_time * constValue.system_freq
+        begin_number = int(begin_time * constValue.system_freq)
         # 结束的点
-        end_number = end_time * constValue.system_freq
+        end_number = int(end_time * constValue.system_freq)
         # 进行绘制
         plt.plot(self.primary_data[begin_number:end_number])
         plt.show()
