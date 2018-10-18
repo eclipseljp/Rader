@@ -50,9 +50,10 @@ def get_signals():
     test_signal_1 = signal_source(0.4, 30, 1,  [50], 2, [100, 0.4])
     test_signal_2 = signal_source(0.4, 30, 2,  [50, 10], 3, [100, 10, 0.4])
     test_signal_3 = signal_source(0.4, 30, 4,  [50, 8, 0.2], 2, [100, 0.4])
-    test_signal_4 = test_signal = signal_source(1, 30, 5,  [50, 40, 0.2], 1, [100])
+    test_signal_4 =  signal_source(1, 30, 5,  [50, 40, 0.2], 1, [100])
     # 将一组信号合并成一个list
-    test_signal = [test_signal_1, test_signal_2, test_signal_3, test_signal_4]
+    test_signal = [test_signal_4]
+    # test_signal = [test_signal_1, test_signal_2, test_signal_3, test_signal_4]
     return test_signal
 
 

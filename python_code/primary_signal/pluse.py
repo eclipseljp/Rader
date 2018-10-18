@@ -30,6 +30,7 @@ class pluse:
         #print(constValue.system_freq/self.fs)
         self.plus_signal = (1+np.sin(2*np.pi*self.t/(constValue.system_freq/self.fs)))/2
 
+
     # 绘制波形信息
     def draw_data(self):
         plt.plot(self.t, self.plus_signal)

@@ -8,4 +8,7 @@ if __name__ == "__main__":
     # data[20:40] += add_data
     # print(data)
     t = np.linspace(0, 100, 100)
-    print(5*t*t)
+    print(t)
+    a = t[20:]
+    print(type(a))
+    print(a)
