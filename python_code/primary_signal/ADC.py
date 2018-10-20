@@ -2,6 +2,7 @@ __author__ = 'caocongcong'
 
 from primary_signal.const_value import constValue
 import numpy as np
+from scipy import signal
 
 # 进行信号的采样
 
@@ -27,6 +28,10 @@ class AD:
         self.frame_number = self.simu_time / self.frame_time
         # 每帧的数目
         self.frame_sample_number = int (self.frame_time * constValue.system_freq)
+        # 第一次变频的基带频率
+        self.frist_base = [0, 400, 800]
+        # 第二次变频的基带频率
+        self.seconde_base = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390]
 
 
 
@@ -58,7 +63,7 @@ class AD:
             self.split_signal_data.append(tmp)
 
 
-    def down_conversion(Mode, conbersion_fs, sample_fs, input_data):
+    def down_conversion(self, Mode, conbersion_fs, sample_fs, input_data):
         '''
         进行下变频，转化到自己所需要的频率
         :param Mode: 是I路还是Q路，决定乘以sin还是cos
@@ -82,10 +87,24 @@ class AD:
 
         return changed_signal
 
-    def FIR_filter(self, Mode):
+    def FIR_filter(self, Mode, input_data):
         '''
         低通滤波器，进行滤波处理，实际只有400M和60M两种选择
         :param Mode: 只有两种选择，为400M和60M
         :return:
         '''
-        pass
+        if Mode == "400M":
+            # 400M的带宽，使用预先写入的数据建立滤波器
+            b = np.array(constValue.lp_fs400_Overband20)
+            # 将滤波的值返回回来
+            return signal.filtfilt(b, 1, input_data)
+        else:
+            # 60M的带宽
+            # 返回滤波的值
+            b = np.array(constValue.lp_fs30_Oberband5)
+            return signal.filtfilt(b, 1, input_data)
+    def AD_data(self):
+        # 读数据进行采样的主流程
+        # 首先进行数据划分
+        self.split_signal()
+        # 对划分的数据进行进行处理
