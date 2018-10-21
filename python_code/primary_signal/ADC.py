@@ -108,3 +108,32 @@ class AD:
         # 首先进行数据划分
         self.split_signal()
         # 对划分的数据进行进行处理
+        tmp_index = 0
+        for tmp_signal in self.split_signal_data:
+            # 首先进行变频,分别获得I路和Q路的数据
+            con_signal_I = self.down_conversion("Sin", self.frist_base[tmp_signal], constValue.system_freq, tmp_signal)
+            con_signal_I = self.FIR_filter("400M", con_signal_I)
+            con_signal_Q = self.down_conversion("Cos", self.frist_base[tmp_signal], constValue.system_freq, tmp_signal)
+            con_signal_Q = self.FIR_filter("400M", con_signal_Q)
+            self.mul_channel(con_signal_I, self.frist_base[tmp_index], "Sin")
+            self.mul_channel(con_signal_Q, self.frist_base[tmp_index], "Cos")
+            # 每次基础频率变化
+            tmp_index += 1
+            if tmp_index == 3:
+                tmp_index = 0
+
+    def mul_channel(self, input_data, first_base_fs, Mode):
+        '''
+        进行多信道化，采样并测试数据
+        :param input_data:
+        :return:
+        '''
+        for base_fs in self.seconde_base:
+            if Mode == "Sin":
+                tmp_signal = self.down_conversion("Sin", base_fs, constValue.first_sample_fs, input_data)
+            else:
+                tmp_signal = self.down_conversion("Cos", base_fs, constValue.first_sample_fs, input_data)
+
+            # 进行滤波
+            tmp_signal = self.FIR_filter("60M", tmp_signal)
+
