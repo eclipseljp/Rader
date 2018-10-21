@@ -115,6 +115,9 @@ class AD:
             con_signal_I = self.FIR_filter("400M", con_signal_I)
             con_signal_Q = self.down_conversion("Cos", self.frist_base[tmp_signal], constValue.system_freq, tmp_signal)
             con_signal_Q = self.FIR_filter("400M", con_signal_Q)
+            # 进行重采样
+            con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.first_sample_fs/constValue.system_freq))
+            con_signal_Q = signal.resample(con_signal_Q, int(len(con_signal_Q)*constValue.first_sample_fs/constValue.system_freq))
             self.mul_channel(con_signal_I, self.frist_base[tmp_index], "Sin")
             self.mul_channel(con_signal_Q, self.frist_base[tmp_index], "Cos")
             # 每次基础频率变化
@@ -136,4 +139,6 @@ class AD:
 
             # 进行滤波
             tmp_signal = self.FIR_filter("60M", tmp_signal)
+            # 进行重采样
+            tmp_signal = signal.resample(tmp_signal, int(len(tmp_signal)*constValue.first_sample_fs/constValue.second_sample_fs))
 
