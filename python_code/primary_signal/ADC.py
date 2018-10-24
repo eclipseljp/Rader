@@ -3,6 +3,7 @@ __author__ = 'caocongcong'
 from primary_signal.const_value import constValue
 import numpy as np
 from scipy import signal
+import matplotlib.pyplot as plt
 
 # 进行信号的采样
 
@@ -19,7 +20,7 @@ class AD:
         '''
         # 原始信号
         # 恢复成不是正信号
-        self.primary_signal = primary_signal*2-1
+        self.primary_signal = primary_signal
         # 系统整体的仿真时间
         self.simu_time = simu_time
         # 帧的时长
@@ -48,7 +49,7 @@ class AD:
         # 当没有划分完毕的时候
         while current_index < len(self.primary_signal):
             # 说明取到了最后一行，此时直接全部加入
-            if current_index + self.frame_sample_number < len(self.primary_signal):
+            if current_index + self.frame_sample_number > len(self.primary_signal):
                 # 全部加入
                 tmp = self.primary_signal[current_index:]
                 self.split_signal_data.append(tmp)
@@ -61,6 +62,7 @@ class AD:
             current_index += self.frame_sample_number
             # 加到最后
             self.split_signal_data.append(tmp)
+        print("最后划分的个数"+ str(len(self.split_signal_data)))
 
 
     def down_conversion(self, Mode, conbersion_fs, sample_fs, input_data):
@@ -75,15 +77,23 @@ class AD:
         if Mode == "Sin":
             # 产生等长sin的信号
             t = np.linspace(0, len(input_data), len(input_data))
-            changed_signal = np.sin(2*np.pi*t/(sample_fs/conbersion_fs))
-            # 对原始信号进行变化
-            changed_signal *= input_data
+            if conbersion_fs == 0:
+                changed_signal = np.zeros(len(input_data))
+                changed_signal *= input_data
+            else:
+                changed_signal = np.sin(2*np.pi*t/(sample_fs/conbersion_fs))
+                # 对原始信号进行变化
+                changed_signal *= input_data
         else:
             # 产生等长cos的信号
-            t = np.linspace(0, len(input_data), len(input_data))
-            changed_signal = np.cos(2*np.pi*t/(sample_fs/conbersion_fs))
-            # 对原始信号进行变化
-            changed_signal *= input_data
+            if conbersion_fs == 0:
+                changed_signal = np.ones(len(input_data))
+                changed_signal *= input_data
+            else:
+                t = np.linspace(0, len(input_data), len(input_data))
+                changed_signal = np.cos(2*np.pi*t/(sample_fs/conbersion_fs))
+                # 对原始信号进行变化
+                changed_signal *= input_data
 
         return changed_signal
 
@@ -107,14 +117,31 @@ class AD:
         # 读数据进行采样的主流程
         # 首先进行数据划分
         self.split_signal()
+        # 计数器进行观察
+        order = 0
         # 对划分的数据进行进行处理
         tmp_index = 0
         for tmp_signal in self.split_signal_data:
             # 首先进行变频,分别获得I路和Q路的数据
-            con_signal_I = self.down_conversion("Sin", self.frist_base[tmp_signal], constValue.system_freq, tmp_signal)
+            print("当前的处理帧数", str(order))
+            if order == 3:
+                print("当前的变频的基础频率", str(self.frist_base[tmp_index]))
+                plt.plot(tmp_signal)
+                plt.title("primary signal")
+                plt.show()
+
+            con_signal_I = self.down_conversion("Sin", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
             con_signal_I = self.FIR_filter("400M", con_signal_I)
-            con_signal_Q = self.down_conversion("Cos", self.frist_base[tmp_signal], constValue.system_freq, tmp_signal)
+            con_signal_Q = self.down_conversion("Cos", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
+            if order == 3:
+                plt.plot(con_signal_Q)
+                plt.title("down conversion signal")
+                plt.show()
             con_signal_Q = self.FIR_filter("400M", con_signal_Q)
+            if order == 3:
+                plt.plot(con_signal_Q)
+                plt.title("after filter")
+                plt.show()
             # 进行重采样
             con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.first_sample_fs/constValue.system_freq))
             con_signal_Q = signal.resample(con_signal_Q, int(len(con_signal_Q)*constValue.first_sample_fs/constValue.system_freq))
@@ -124,6 +151,9 @@ class AD:
             tmp_index += 1
             if tmp_index == 3:
                 tmp_index = 0
+            order += 1
+
+
 
     def mul_channel(self, input_data, first_base_fs, Mode):
         '''
@@ -132,6 +162,7 @@ class AD:
         :return:
         '''
         for base_fs in self.seconde_base:
+            print(base_fs)
             if Mode == "Sin":
                 tmp_signal = self.down_conversion("Sin", base_fs, constValue.first_sample_fs, input_data)
             else:
@@ -141,4 +172,3 @@ class AD:
             tmp_signal = self.FIR_filter("60M", tmp_signal)
             # 进行重采样
             tmp_signal = signal.resample(tmp_signal, int(len(tmp_signal)*constValue.first_sample_fs/constValue.second_sample_fs))
-
