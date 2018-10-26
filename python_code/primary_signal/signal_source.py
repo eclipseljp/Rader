@@ -579,7 +579,8 @@ class signal_source:
         N = pw * constValue.system_freq
         # 采样时间
         t = np.linspace(0, pw, N)
-        signal = 0.5*np.sin(2*np.pi*begin_fs*t + np.pi*k*t*t)+0.5
+        # signal = 0.5*np.sin(2*np.pi*begin_fs*t + np.pi*k*t*t)+0.5
+        signal = np.sin(2*np.pi*begin_fs*t + np.pi*k*t*t)
         return signal
 if __name__ == "__main__":
     pass

@@ -28,7 +28,9 @@ class pluse:
         self.t = np.linspace(0, sample_number, sample_number)
         #print(self.t)
         #print(constValue.system_freq/self.fs)
-        self.plus_signal = (1+np.sin(2*np.pi*self.t/(constValue.system_freq/self.fs)))/2
+        # self.plus_signal = (1+np.sin(2*np.pi*self.t/(constValue.system_freq/self.fs)))/2
+        # todo
+        self.plus_signal =  np.sin(2 * np.pi * self.t / (constValue.system_freq / self.fs))
 
 
     # 绘制波形信息

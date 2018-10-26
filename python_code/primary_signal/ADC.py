@@ -107,13 +107,13 @@ class AD:
             # 400M的带宽，使用预先写入的数据建立滤波器
             b = np.array(constValue.lp_fs400_Overband20)
             # 将滤波的值返回回来
-            fig = plt.figure()
-            ax1 = fig.add_subplot(2,1,1)
-            ax1.plot(np.abs(np.fft.fft(input_data)))
+            # fig = plt.figure()
+            # ax1 = fig.add_subplot(2,1,1)
+            # ax1.plot(np.abs(np.fft.fft(input_data)))
             after_filter = signal.filtfilt(b, 1, input_data)
-            ax2 = fig.add_subplot(2,1,2)
-            ax2.plot(np.abs(np.fft.fft(after_filter)))
-            plt.show(fig)
+            # ax2 = fig.add_subplot(2,1,2)
+            # ax2.plot(np.abs(np.fft.fft(after_filter)))
+            # plt.show(fig)
             return after_filter
         else:
             # 60M的带宽
