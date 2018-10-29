@@ -4,6 +4,8 @@ from primary_signal.const_value import constValue
 import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
+from util.fluter import fluter_design
+from util.Tool import show_Data
 
 # 进行信号的采样
 
@@ -33,6 +35,8 @@ class AD:
         self.frist_base = [0, 400, 800]
         # 第二次变频的基带频率
         self.seconde_base = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390]
+        # 保存最终的信号
+        self.final_primary_data = []
 
 
 
@@ -105,7 +109,7 @@ class AD:
         '''
         if Mode == "400M":
             # 400M的带宽，使用预先写入的数据建立滤波器
-            b = np.array(constValue.lp_fs400_Overband20)
+            b = fluter_design(constValue.first_fluter_length, constValue.first_fluter_base, constValue.first_fluter_pass, constValue.system_freq)
             # 将滤波的值返回回来
             # fig = plt.figure()
             # ax1 = fig.add_subplot(2,1,1)
@@ -118,7 +122,7 @@ class AD:
         else:
             # 60M的带宽
             # 返回滤波的值
-            b = np.array(constValue.lp_fs30_Oberband5)
+            b = fluter_design(constValue.second_fluter_length, constValue.second_fluter_base, constValue.second_fluter_pass, constValue.first_sample_fs)
             return signal.filtfilt(b, 1, input_data)
     def AD_data(self):
         # 读数据进行采样的主流程
@@ -130,29 +134,14 @@ class AD:
         tmp_index = 0
         for tmp_signal in self.split_signal_data:
             # 首先进行变频,分别获得I路和Q路的数据
-            print("当前的处理帧数", str(order))
-            if order == 3:
-                print("当前的变频的基础频率", str(self.frist_base[tmp_index]))
-                plt.plot(tmp_signal)
-                plt.title("primary signal")
-                plt.show()
-
-            con_signal_I = self.down_conversion("Sin", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
-            con_signal_I = self.FIR_filter("400M", con_signal_I)
+            # con_signal_I = self.down_conversion("Sin", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
+            # con_signal_I = self.FIR_filter("400M", con_signal_I)
             con_signal_Q = self.down_conversion("Cos", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
-            if order == 3:
-                plt.plot(con_signal_Q)
-                plt.title("down conversion signal")
-                plt.show()
             con_signal_Q = self.FIR_filter("400M", con_signal_Q)
-            if order == 3:
-                plt.plot(con_signal_Q)
-                plt.title("after filter")
-                plt.show()
             # 进行重采样
-            con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.first_sample_fs/constValue.system_freq))
+            # con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.first_sample_fs/constValue.system_freq))
             con_signal_Q = signal.resample(con_signal_Q, int(len(con_signal_Q)*constValue.first_sample_fs/constValue.system_freq))
-            self.mul_channel(con_signal_I, self.frist_base[tmp_index], "Sin")
+            # self.mul_channel(con_signal_I, self.frist_base[tmp_index], "Sin")
             self.mul_channel(con_signal_Q, self.frist_base[tmp_index], "Cos")
             # 每次基础频率变化
             tmp_index += 1
@@ -168,6 +157,7 @@ class AD:
         :param input_data:
         :return:
         '''
+        tmp_primary_data = []
         for base_fs in self.seconde_base:
             print(base_fs)
             if Mode == "Sin":
@@ -179,3 +169,12 @@ class AD:
             tmp_signal = self.FIR_filter("60M", tmp_signal)
             # 进行重采样
             tmp_signal = signal.resample(tmp_signal, int(len(tmp_signal)*constValue.first_sample_fs/constValue.second_sample_fs))
+
+            tmp_primary_data.append(tmp_signal)
+
+        # 把这次的信号加到最后的原始信号
+        self.final_primary_data.append(tmp_primary_data)
+
+    # 进行参数测量
+    def cul_param(self, data):
+        pass
