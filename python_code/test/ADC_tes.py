@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # 获取原始信号
     primary_data = priamry_signal_test.primary_data
     # 绘图进行观察，观察时域和频域
-    show_Data(primary_data)
+    show_Data(primary_data[0:12000])
     # 进行滤波器测试
     ad_test = AD(primary_data, simutime, frame_time)
     # 滤波器效果不错
