@@ -166,7 +166,7 @@ class AD:
                 tmp_signal = self.down_conversion("Cos", base_fs, constValue.first_sample_fs, input_data)
 
             # 进行滤波
-            tmp_signal = self.FIR_filter("60M", tmp_signal)
+            tmp_signal = self.FIR_filter("30M", tmp_signal)
             # 进行重采样
             tmp_signal = signal.resample(tmp_signal, int(len(tmp_signal)*constValue.first_sample_fs/constValue.second_sample_fs))
 
