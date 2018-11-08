@@ -32,7 +32,7 @@ class AD:
         # 每帧的数目
         self.frame_sample_number = int (self.frame_time * constValue.system_freq)
         # 第一次变频的基带频率
-        self.frist_base = [0, 400, 800]
+        self.frist_base = [200, 600, 1000]
         # 第二次变频的基带频率
         self.seconde_base = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390]
         # 保存最终的信号
@@ -40,6 +40,28 @@ class AD:
 
 
 
+
+
+    def first_complex_conv(self, tmp_index, tmp_signal):
+        '''
+        第一次进行复采样
+        :param conbersion_fs: 变频的频率
+        :param sample_fs: 原始的采样频率
+        :param input_data:
+        :return:self.first_complex_signal
+        '''
+        con_signal_I = self.down_conversion("Cos", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
+        con_signal_I = self.FIR_filter("200M", con_signal_I)
+        con_signal_Q = self.down_conversion("Sin", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
+        con_signal_Q = self.FIR_filter("200M", con_signal_Q)
+        # 进行重采样
+        con_signal_I = signal.resample(con_signal_I,
+                                       int(len(con_signal_I) * constValue.first_sample_fs / constValue.system_freq))
+        con_signal_Q = signal.resample(con_signal_Q,
+                                       int(len(con_signal_Q) * constValue.first_sample_fs / constValue.system_freq))
+        print("I路的长度", len(con_signal_I))
+        print("Q路的长度", len(con_signal_Q))
+        self.first_complex_signal = np.array(con_signal_I - con_signal_Q * 1j)
 
     def split_signal(self):
         '''
@@ -81,23 +103,15 @@ class AD:
         if Mode == "Sin":
             # 产生等长sin的信号
             t = np.linspace(0, len(input_data), len(input_data))
-            if conbersion_fs == 0:
-                changed_signal = np.zeros(len(input_data))
-                changed_signal *= input_data
-            else:
-                changed_signal = np.sin(2*np.pi*t/(sample_fs/conbersion_fs))
-                # 对原始信号进行变化
-                changed_signal *= input_data
+            changed_signal = np.sin(2*np.pi*t/(sample_fs/conbersion_fs))
+            # 对原始信号进行变化
+            changed_signal *= input_data
         else:
             # 产生等长cos的信号
-            if conbersion_fs == 0:
-                changed_signal = np.ones(len(input_data))
-                changed_signal *= input_data
-            else:
-                t = np.linspace(0, len(input_data), len(input_data))
-                changed_signal = np.cos(2*np.pi*t/(sample_fs/conbersion_fs))
-                # 对原始信号进行变化
-                changed_signal *= input_data
+            t = np.linspace(0, len(input_data), len(input_data))
+            changed_signal = np.cos(2*np.pi*t/(sample_fs/conbersion_fs))
+            # 对原始信号进行变化
+            changed_signal *= input_data
 
         return changed_signal
 
@@ -107,7 +121,7 @@ class AD:
         :param Mode: 只有两种选择，为400M和60M
         :return:
         '''
-        if Mode == "400M":
+        if Mode == "200M":
             # 400M的带宽，使用预先写入的数据建立滤波器
             b = fluter_design(constValue.first_fluter_length, constValue.first_fluter_base, constValue.first_fluter_pass, constValue.system_freq)
             # 将滤波的值返回回来
@@ -134,20 +148,8 @@ class AD:
         tmp_index = 0
         for tmp_signal in self.split_signal_data:
             # 首先进行变频,分别获得I路和Q路的数据
-            # con_signal_I = self.down_conversion("Sin", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
-            # con_signal_I = self.FIR_filter("400M", con_signal_I)
-            con_signal_Q = self.down_conversion("Cos", self.frist_base[tmp_index], constValue.system_freq, tmp_signal)
-            con_signal_Q = self.FIR_filter("400M", con_signal_Q)
-            # 进行重采样
-            # con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.first_sample_fs/constValue.system_freq))
-            con_signal_Q = signal.resample(con_signal_Q, int(len(con_signal_Q)*constValue.first_sample_fs/constValue.system_freq))
-            # self.mul_channel(con_signal_I, self.frist_base[tmp_index], "Sin")
-            self.mul_channel(con_signal_Q, self.frist_base[tmp_index], "Cos")
-            # 每次基础频率变化
-            tmp_index += 1
-            if tmp_index == 3:
-                tmp_index = 0
-            order += 1
+            self.first_multi_conv(tmp_index, tmp_signal)
+
 
 
 

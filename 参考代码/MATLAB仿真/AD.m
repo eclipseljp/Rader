@@ -2,17 +2,17 @@
 clear ; close all; clc;
 
 % parameter
-f0      =   20e+6;      % 20MHz中频 
-B       =   2e+6;       % 2MHz带宽
+f0      =   300e+6;      % 20MHz中频 
+B       =   20e+6;       % 2MHz带宽
 Tao     =   150e-6;     % 200us时宽
 T       =   2e-3;       % 2ms脉冲重复周期 
-fs      =   15e+6;      % 15MHz采样频率
+fs      =   480e+6;      % 15MHz采样频率
 SNR     =   20;         % 信噪比20dB
 dis     =   T*fs/2;     % 将目标设置在回波中间处
 
 % Generate LFM @f0
 t = -round(Tao*fs/2):1:round(Tao*fs/2)-1; % 脉冲采样点 
-median_fre = (10^(SNR/20))* (cos(pi*B/Tao*(t/fs).^2 ).*cos(2*pi*f0*t/fs) - sin(pi*B/Tao*(t/fs).^2 ).*sin(2*pi*f0*t/fs));   % I*cos + Q*sin
+median_fre = (10^(SNR/20))* (cos(2*pi*B*t/fs ).*cos(2*pi*f0*t/fs) - sin(2*pi*B*t/fs).*sin(2*pi*f0*t/fs));   % I*cos + Q*sin
 
 figure;
 plot(median_fre); title('进行调制后的线性调频信号');
@@ -44,3 +44,5 @@ ddc_res = conv(echo,coeff);
 figure;
 subplot(2,1,1); plot(real(ddc_res),'b'); title('低通滤波后回波信号实部');
 subplot(2,1,2); plot(imag(ddc_res),'r'); title('低通滤波后回波信号虚部');
+
+figure; plot(abs(fftshift(fft(ddc_res)))); title('混频后回波信号频谱');

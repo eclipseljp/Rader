@@ -17,7 +17,7 @@ def fluter_design(n, base_band, pass_band, system_fs):
     band_param =(0, base_band/system_fs, (base_band+pass_band)/system_fs, 0.5)
     # print(system_fs)
     # print(band_param)
-    gain_param = [1, 0.01]
+    gain_param = [1, 0.001]
     b = signal.remez(n,band_param, gain_param)
     return b
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     for i in range(5):
         len_param.append(base_length)
         base_length += add_length
-    choose_param(constValue.second_fluter_base, constValue.second_fluter_base, constValue.first_sample_fs, len_param)
+    choose_param(constValue.first_fluter_base, constValue.first_fluter_pass, constValue.system_freq, len_param)
 
 
 

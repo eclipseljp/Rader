@@ -2,7 +2,7 @@ __author__ = 'caocongcong'
 # 保存仿真系统的常量值
 class constValue():
     # 系统时钟为1.2GHz 单位为MHz
-    system_freq = 4e3
+    system_freq = 2e3
 
     # 信号频率范围为0.1M到1G测频精度, 1MHz,单位为MHz
     freq_accu = 1
@@ -24,13 +24,13 @@ class constValue():
     DOA_accu = 3
 
     # 滤波器参数设置
-    first_fluter_base = 400
-    first_fluter_pass = 50
+    first_fluter_base = 200
+    first_fluter_pass = 30
     first_fluter_length = 30
     second_fluter_base = 30
     second_fluter_pass = 5
     second_fluter_length = 30
 
     # 采样频率设置
-    first_sample_fs = 960
+    first_sample_fs = 480
     second_sample_fs = 60
