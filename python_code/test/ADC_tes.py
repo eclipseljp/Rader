@@ -11,13 +11,14 @@ from primary_signal.const_value import constValue
 
 def complex_ad_test(primary_data):
     ad_test = AD(primary_data, simutime, frame_time)
-    ad_test.first_complex_conv(1,primary_data)
-    show_complex(ad_test.first_complex_signal)
+    ad_test.first_complex_ad(1,primary_data)
+    ad_test.second_complex_ad(0)
+    show_complex(ad_test.second_complex_signal_current)
 
 # 本文件对ADC进行测试
 if __name__ == "__main__":
     # 首先获取原始信号
-    signal = signal_source(0.4, 30, 1, [450], 2, [10, 0.4])
+    signal = signal_source(0.4, 30, 1, [440], 2, [10, 0.4])
     signals = [signal]
     simutime = 500
     frame_time = 100

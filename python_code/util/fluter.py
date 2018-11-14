@@ -49,7 +49,7 @@ if __name__ == "__main__":
     #     base_length += add_length
     # choose_param(constValue.first_fluter_base, constValue.first_fluter_pass, constValue.system_freq, len_param)
     base_length = 10
-    add_length = 10
+    add_length = 5
     len_param = []
     for i in range(5):
         len_param.append(base_length)

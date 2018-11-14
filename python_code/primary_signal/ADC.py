@@ -34,7 +34,7 @@ class AD:
         # 第一次变频的基带频率
         self.frist_base = [200, 600, 1000]
         # 第二次变频的基带频率
-        self.seconde_base = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390]
+        self.seconde_base = [-170, -110, -50, 10, 70, 130, 190]
         # 保存最终的信号
         self.final_primary_data = []
 
@@ -42,7 +42,7 @@ class AD:
 
 
 
-    def first_complex_conv(self, tmp_index, tmp_signal):
+    def first_complex_ad(self, tmp_index, tmp_signal):
         '''
         第一次进行复采样
         :param conbersion_fs: 变频的频率
@@ -59,9 +59,33 @@ class AD:
                                        int(len(con_signal_I) * constValue.first_sample_fs / constValue.system_freq))
         con_signal_Q = signal.resample(con_signal_Q,
                                        int(len(con_signal_Q) * constValue.first_sample_fs / constValue.system_freq))
+        print("第一轮采样的数据")
         print("I路的长度", len(con_signal_I))
         print("Q路的长度", len(con_signal_Q))
         self.first_complex_signal = np.array(con_signal_I - con_signal_Q * 1j)
+
+
+    def second_complex_ad(self, index):
+        '''
+        :param index 此次下变频的基频
+        进行第二次的信道化采样
+        :return:
+        '''
+        con_siganl = self.down_conversion_complex(self.seconde_base[index], constValue.first_sample_fs, self.first_complex_signal)
+        # con_signal_I = self.down_conversion("Cos", self.seconde_base[index], constValue.first_sample_fs, np.real(self.first_complex_signal))
+        # con_signal_Q = self.down_conversion("Sin", self.seconde_base[index], constValue.first_sample_fs, np.imag(self.first_complex_signal))
+        con_signal_I = np.real(con_siganl)
+        con_signal_Q = np.imag(con_siganl)
+        con_signal_I = self.FIR_filter("30M", con_signal_I)
+        con_signal_Q = self.FIR_filter("30M", con_signal_Q)
+        # 重采样
+        con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.second_sample_fs/ constValue.first_sample_fs))
+        con_signal_Q = signal.resample(con_signal_Q, int(len(con_signal_Q)*constValue.second_sample_fs/ constValue.first_sample_fs))
+        print("第二轮采样的数据")
+        print("I路的长度", len(con_signal_I))
+        print("Q路的长度", len(con_signal_Q))
+        self.second_complex_signal_current = np.array(con_signal_I - con_signal_Q * 1j)
+
 
     def split_signal(self):
         '''
@@ -90,6 +114,22 @@ class AD:
             self.split_signal_data.append(tmp)
         print("最后划分的个数"+ str(len(self.split_signal_data)))
 
+
+    def down_conversion_complex(self, conbersion_fs, sample_fs, input_data):
+        '''
+        复信号的采样
+        :param Mode: 是I路还是Q路，决定乘以sin还是cos
+        :param conbersion_fs: 转到的频率
+        :param sample_fs: 采样频率
+        :param input_data :输入数据
+        :return: 变频之后的数据
+        '''
+        t = np.linspace(0, len(input_data), len(input_data))
+        changed_signal_sin = np.sin(2 * np.pi * t / (sample_fs / conbersion_fs))
+        changed_signal_cos = np.cos(2*np.pi * t/(sample_fs/conbersion_fs))
+        changed_signal = np.array(changed_signal_cos - changed_signal_sin*1j)
+        changed_signal *= input_data
+        return changed_signal
 
     def down_conversion(self, Mode, conbersion_fs, sample_fs, input_data):
         '''
@@ -145,38 +185,20 @@ class AD:
         # 计数器进行观察
         order = 0
         # 对划分的数据进行进行处理
-        tmp_index = 0
-        for tmp_signal in self.split_signal_data:
+        frist_index = 0
+        while frist_index < len(self.split_signal_data):
             # 首先进行变频,分别获得I路和Q路的数据
-            self.first_multi_conv(tmp_index, tmp_signal)
+            self.first_complex_ad(frist_index% len(self.frist_base), self.split_signal_data[frist_index])
+            frist_index += 1
+            # 进行第二次变频
+            second_tmp_index = 0
+            while second_tmp_index < len(self.seconde_base):
+                self.second_complex_ad(second_tmp_index % len(self.seconde_base))
+                self.cul_param(self.second_complex_signal_current, frist_index)
+                second_tmp_index += 1
 
 
-
-
-    def mul_channel(self, input_data, first_base_fs, Mode):
-        '''
-        进行多信道化，采样并测试数据
-        :param input_data:
-        :return:
-        '''
-        tmp_primary_data = []
-        for base_fs in self.seconde_base:
-            print(base_fs)
-            if Mode == "Sin":
-                tmp_signal = self.down_conversion("Sin", base_fs, constValue.first_sample_fs, input_data)
-            else:
-                tmp_signal = self.down_conversion("Cos", base_fs, constValue.first_sample_fs, input_data)
-
-            # 进行滤波
-            tmp_signal = self.FIR_filter("30M", tmp_signal)
-            # 进行重采样
-            tmp_signal = signal.resample(tmp_signal, int(len(tmp_signal)*constValue.first_sample_fs/constValue.second_sample_fs))
-
-            tmp_primary_data.append(tmp_signal)
-
-        # 把这次的信号加到最后的原始信号
-        self.final_primary_data.append(tmp_primary_data)
 
     # 进行参数测量
-    def cul_param(self, data):
+    def cul_param(self, data, frist_index):
         pass
