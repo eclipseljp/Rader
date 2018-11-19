@@ -10,7 +10,7 @@ from util.Tool import show_Data
 # 进行信号的采样
 
 class AD:
-    def __init__(self, primary_signal, simu_time, frame_time):
+    def __init__(self, primary_signal, simu_time, frame_time, frist_base = [200, 600, 1000]):
         '''
         进行信号的AD采样，首先对原始信号的进行划分，按照帧长划分成子段
         对每个子段进行下变频，然后进行滤波以及重采样
@@ -18,6 +18,7 @@ class AD:
         汇总每个子带计算的参数进行合并
         :param primary_signal 原始的信号
         :param simu_time 整体系统的仿真时间
+        :param frist_base 第一次变频的基频
         :frame_time 一帧的时间
         '''
         # 原始信号
@@ -32,7 +33,7 @@ class AD:
         # 每帧的数目
         self.frame_sample_number = int (self.frame_time * constValue.system_freq)
         # 第一次变频的基带频率
-        self.frist_base = [200, 600, 1000]
+        self.frist_base = frist_base
         # 第二次变频的基带频率
         self.seconde_base = [-170, -110, -50, 10, 70, 130, 190]
         # 保存最终的信号
@@ -59,9 +60,9 @@ class AD:
                                        int(len(con_signal_I) * constValue.first_sample_fs / constValue.system_freq))
         con_signal_Q = signal.resample(con_signal_Q,
                                        int(len(con_signal_Q) * constValue.first_sample_fs / constValue.system_freq))
-        print("第一轮采样的数据")
-        print("I路的长度", len(con_signal_I))
-        print("Q路的长度", len(con_signal_Q))
+        # print("第一轮采样的数据")
+        # print("I路的长度", len(con_signal_I))
+        # print("Q路的长度", len(con_signal_Q))
         self.first_complex_signal = np.array(con_signal_I - con_signal_Q * 1j)
 
 
@@ -81,9 +82,9 @@ class AD:
         # 重采样
         con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.second_sample_fs/ constValue.first_sample_fs))
         con_signal_Q = signal.resample(con_signal_Q, int(len(con_signal_Q)*constValue.second_sample_fs/ constValue.first_sample_fs))
-        print("第二轮采样的数据")
-        print("I路的长度", len(con_signal_I))
-        print("Q路的长度", len(con_signal_Q))
+        # print("第二轮采样的数据")
+        # print("I路的长度", len(con_signal_I))
+        # print("Q路的长度", len(con_signal_Q))
         self.second_complex_signal_current = np.array(con_signal_I - con_signal_Q * 1j)
 
 
@@ -189,16 +190,18 @@ class AD:
         while frist_index < len(self.split_signal_data):
             # 首先进行变频,分别获得I路和Q路的数据
             self.first_complex_ad(frist_index% len(self.frist_base), self.split_signal_data[frist_index])
-            frist_index += 1
             # 进行第二次变频
             second_tmp_index = 0
             while second_tmp_index < len(self.seconde_base):
                 self.second_complex_ad(second_tmp_index % len(self.seconde_base))
-                self.cul_param(self.second_complex_signal_current, frist_index)
+                self.cul_param(self.second_complex_signal_current, frist_index, second_tmp_index)
                 second_tmp_index += 1
+
+            frist_index += 1
 
 
 
     # 进行参数测量
-    def cul_param(self, data, frist_index):
-        pass
+    def cul_param(self, data, frist_index, second_tmp_index):
+        base_fs = self.frist_base[frist_index% len(self.frist_base)] + self.seconde_base[second_tmp_index % len(self.seconde_base)]
+        print(base_fs)

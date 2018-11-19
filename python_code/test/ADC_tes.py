@@ -15,6 +15,11 @@ def complex_ad_test(primary_data):
     ad_test.second_complex_ad(0)
     show_complex(ad_test.second_complex_signal_current)
 
+def fullFlowTest(primary_data):
+    ad_test = AD(primary_data, simutime, frame_time)
+    ad_test.AD_data()
+
+
 # 本文件对ADC进行测试
 if __name__ == "__main__":
     # 首先获取原始信号
@@ -25,4 +30,4 @@ if __name__ == "__main__":
     priamry_signal_test = priamry_signal(signals, simutime)
     # 获取原始信号
     primary_data = priamry_signal_test.primary_data
-    complex_ad_test(primary_data)
+    fullFlowTest(primary_data)
