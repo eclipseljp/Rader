@@ -12,7 +12,7 @@ from primary_signal.const_value import constValue
 def complex_ad_test(primary_data):
     ad_test = AD(primary_data, simutime, frame_time)
     ad_test.first_complex_ad(1,primary_data)
-    ad_test.second_complex_ad(0)
+    ad_test.second_complex_ad(1)
     show_complex(ad_test.second_complex_signal_current)
 
 def fullFlowTest(primary_data):

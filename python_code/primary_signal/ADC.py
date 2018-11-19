@@ -35,7 +35,7 @@ class AD:
         # 第一次变频的基带频率
         self.frist_base = frist_base
         # 第二次变频的基带频率
-        self.seconde_base = [-170, -110, -50, 10, 70, 130, 190]
+        self.seconde_base = constValue.second_base_fs
         # 保存最终的信号
         self.final_primary_data = []
 
@@ -77,8 +77,8 @@ class AD:
         # con_signal_Q = self.down_conversion("Sin", self.seconde_base[index], constValue.first_sample_fs, np.imag(self.first_complex_signal))
         con_signal_I = np.real(con_siganl)
         con_signal_Q = np.imag(con_siganl)
-        con_signal_I = self.FIR_filter("30M", con_signal_I)
-        con_signal_Q = self.FIR_filter("30M", con_signal_Q)
+        con_signal_I = self.FIR_filter("15M", con_signal_I)
+        con_signal_Q = self.FIR_filter("15M", con_signal_Q)
         # 重采样
         con_signal_I = signal.resample(con_signal_I, int(len(con_signal_I)*constValue.second_sample_fs/ constValue.first_sample_fs))
         con_signal_Q = signal.resample(con_signal_Q, int(len(con_signal_Q)*constValue.second_sample_fs/ constValue.first_sample_fs))
@@ -203,5 +203,7 @@ class AD:
 
     # 进行参数测量
     def cul_param(self, data, frist_index, second_tmp_index):
+        # 此次计算的基础频率
         base_fs = self.frist_base[frist_index% len(self.frist_base)] + self.seconde_base[second_tmp_index % len(self.seconde_base)]
+        # 时域检查波形
         print(base_fs)

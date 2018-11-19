@@ -12,3 +12,8 @@ if __name__ == "__main__":
     a = t[20:]
     print(type(a))
     print(a)
+    base = -185
+    while base-15 < 200:
+        print(base, end=' ')
+        print(", ",end=' ')
+        base = base + 30

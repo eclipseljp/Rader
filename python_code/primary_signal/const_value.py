@@ -27,10 +27,11 @@ class constValue():
     first_fluter_base = 200
     first_fluter_pass = 30
     first_fluter_length = 30
-    second_fluter_base = 30
-    second_fluter_pass = 5
-    second_fluter_length = 30
+    second_fluter_base = 15
+    second_fluter_pass = 3
+    second_fluter_length = 15
 
     # 采样频率设置
     first_sample_fs = 480
     second_sample_fs = 60
+    second_base_fs = [-185 ,  -155 ,  -125 ,  -95 ,  -65 ,  -35 ,  -5 ,  25 ,  55 ,  85 ,  115 ,  145 ,  175 ,  205]
