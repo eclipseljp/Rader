@@ -3,17 +3,28 @@ from primary_signal.signal_source import signal_source
 from primary_signal.get_primary_signal import priamry_signal
 from util.Tool import show_Data, show_complex
 from primary_signal.ADC import AD
-import scipy
-from primary_signal.const_value import constValue
 
 
 
 
+
+# 变频测试
 def complex_ad_test(primary_data):
     ad_test = AD(primary_data, simutime, frame_time)
     ad_test.first_complex_ad(1,primary_data)
     ad_test.second_complex_ad(1)
     show_complex(ad_test.second_complex_signal_current)
+
+
+# 检测有效信号测试
+def detect_wave_test(primary_data):
+    ad_test = AD(primary_data, simutime, frame_time)
+    ad_test.first_complex_ad(1, primary_data)
+    ad_test.second_complex_ad(1)
+    ad_test.detect_wave(ad_test.second_complex_signal_current)
+
+def cul_param_test(primary_data):
+    pass
 
 def fullFlowTest(primary_data):
     ad_test = AD(primary_data, simutime, frame_time)
@@ -23,11 +34,11 @@ def fullFlowTest(primary_data):
 # 本文件对ADC进行测试
 if __name__ == "__main__":
     # 首先获取原始信号
-    signal = signal_source(0.4, 30, 1, [440], 2, [10, 0.4])
+    signal = signal_source(1, 30, 1, [440], 2, [10, 0.4])
     signals = [signal]
     simutime = 500
     frame_time = 100
     priamry_signal_test = priamry_signal(signals, simutime)
     # 获取原始信号
     primary_data = priamry_signal_test.primary_data
-    fullFlowTest(primary_data)
+    detect_wave_test(primary_data)

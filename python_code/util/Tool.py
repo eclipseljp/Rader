@@ -25,3 +25,10 @@ def show_complex(primary_data):
     w = np.linspace(0, 2 * np.pi, len(primary_data))
     ax2.plot(w, np.abs(np.fft.fft(primary_data)))
     plt.show()
+
+def show_data_mean(primary_data):
+    fig = plt.figure()
+    plt.plot(primary_data)
+    mean = np.mean(primary_data)*np.ones(primary_data.shape)
+    plt.plot(mean)
+    plt.show()

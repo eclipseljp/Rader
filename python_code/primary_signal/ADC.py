@@ -5,7 +5,7 @@ import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
 from util.fluter import fluter_design
-from util.Tool import show_Data
+from util.Tool import show_Data, show_data_mean
 
 # 进行信号的采样
 
@@ -207,3 +207,14 @@ class AD:
         base_fs = self.frist_base[frist_index% len(self.frist_base)] + self.seconde_base[second_tmp_index % len(self.seconde_base)]
         # 时域检查波形
         print(base_fs)
+
+
+    # 将一段波形中的有效片段截取出来
+    # 返回值格式为[[begin1, end1], [begin2, end2], [begin3, end3]]，为点的下标
+    def detect_wave(self, primary_wave):
+        # 首先计算绝对值
+        primary_wave_abs = np.abs(primary_wave)
+        primary_wave_mean = np.mean(primary_wave_abs)
+        show_data_mean(primary_wave_abs)
+
+
