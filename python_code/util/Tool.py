@@ -32,3 +32,17 @@ def show_data_mean(primary_data):
     mean = np.mean(primary_data)*np.ones(primary_data.shape)
     plt.plot(mean)
     plt.show()
+
+def show_data_cursor(primary_data, cursors):
+    fig = plt.figure()
+    index = np.linspace(0, len(primary_data), len(primary_data))
+    plt.plot(index, primary_data)
+    max_value = max(primary_data)
+    min_value = min(primary_data)
+    for cursor in cursors:
+        # print(cursor)
+        # print([cursor[0], cursor[0]])
+
+        plt.plot([cursor[0], cursor[0]] , [min_value, max_value], "r")
+        plt.plot( [cursor[1], cursor[1]], [min_value, max_value], "r")
+    plt.show()

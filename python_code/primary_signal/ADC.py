@@ -205,8 +205,15 @@ class AD:
     def cul_param(self, data, frist_index, second_tmp_index):
         # 此次计算的基础频率
         base_fs = self.frist_base[frist_index% len(self.frist_base)] + self.seconde_base[second_tmp_index % len(self.seconde_base)]
-        # 时域检查波形
         print(base_fs)
+        # 时域检查波形
+        self.detect_wave(data)
+        # 计算参数
+        print("开始计算参数")
+        for indexs in self.check_result:
+            current_wave_data = data[indexs[0]: indexs[1]]
+            begin_fs, end_fs = self.cul_fs(current_wave_data)
+            print("开始频率:",begin_fs,"截止频率",end_fs )
 
 
     # 将一段波形中的有效片段截取出来
@@ -215,6 +222,28 @@ class AD:
         # 首先计算绝对值
         primary_wave_abs = np.abs(primary_wave)
         primary_wave_mean = np.mean(primary_wave_abs)
-        show_data_mean(primary_wave_abs)
+        detect_bais = primary_wave_mean
+        # 检波的
+        index = 0
+        self.check_result = []
+        while index <len(primary_wave_abs):
+            if primary_wave_abs[index] > detect_bais:
+                if sum(primary_wave_abs[index: index+constValue.detect_number] >detect_bais) == constValue.detect_number:
+                    end_index = index+constValue.detect_number
+                    while primary_wave_abs[end_index] >detect_bais:
+                        end_index += 1
+                    tmp = [index ,end_index]
+                    self.check_result.append(tmp)
+                    # print(end_index - index)
+                    index = end_index
+
+            index += 1
+
+
+    # 计算一段的频率参数
+    def cul_fs(self, primary_data):
+        head_fs = max(np.real(np.fft.fft(primary_data[0: constValue.cul_fs_number])))
+        tail_fs = max(np.real(np.fft.fft(primary_data[-constValue.cul_fs_number:])))
+        return (head_fs, tail_fs)
 
 
