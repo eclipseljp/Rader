@@ -213,7 +213,12 @@ class AD:
         for indexs in self.check_result:
             current_wave_data = data[indexs[0]: indexs[1]]
             begin_fs, end_fs = self.cul_fs(current_wave_data)
-            print("开始频率:",begin_fs,"截止频率",end_fs )
+            begin_final_fs =begin_fs + base_fs
+            end_final_fs = end_fs + base_fs
+            TOA = round(indexs[0] / constValue.second_sample_fs,1)
+            PW = round((indexs[1] - indexs[0]) / constValue.second_sample_fs, 1)
+            PA = round(np.mean(np.abs(data[indexs[0]:indexs[1]])), 3)
+            print("起点频率:",begin_final_fs,"终点频率:",end_final_fs, "TOA:", TOA, "PW:", PW, "PA:", PA )
 
 
     # 将一段波形中的有效片段截取出来
@@ -232,7 +237,7 @@ class AD:
                     end_index = index+constValue.detect_number
                     while primary_wave_abs[end_index] >detect_bais:
                         end_index += 1
-                    tmp = [index ,end_index]
+                    tmp = [index ,end_index-1]
                     self.check_result.append(tmp)
                     # print(end_index - index)
                     index = end_index
@@ -242,8 +247,27 @@ class AD:
 
     # 计算一段的频率参数
     def cul_fs(self, primary_data):
-        head_fs = max(np.real(np.fft.fft(primary_data[0: constValue.cul_fs_number])))
-        tail_fs = max(np.real(np.fft.fft(primary_data[-constValue.cul_fs_number:])))
-        return (head_fs, tail_fs)
+        if len(primary_data) < constValue.fft_number:
+            extend_data = np.append(primary_data, np.zeros(constValue.fft_number - len(primary_data)))
+            abs_fs = np.abs(np.fft.fft(extend_data))
+            fs_max_value = np.max(abs_fs)
+            fs_index = np.where(abs_fs == fs_max_value)
+
+            return (self.get_priamry_fs(fs_index[0], self.get_priamry_fs(fs_index[0])))
+        head_abs = np.abs(np.fft.fft(primary_data[0: constValue.fft_number]))
+        head_fs = np.max(head_abs)
+        head_index = np.where(head_abs == head_fs)
+        tail_abs = np.abs(np.fft.fft(primary_data[-constValue.fft_number:]))
+        tail_fs = np.max(tail_abs)
+        tail_index = np.where(tail_abs == tail_fs)
+        return (self.get_priamry_fs(head_index[0]), self.get_priamry_fs(tail_index[0]))
+
+
+    # 根据fft计算后位置得到具体的值
+    def get_priamry_fs(self, index):
+        if index < constValue.fft_number /2:
+            return -index[0]
+        else:
+            return index[0] - constValue.fft_number/2
 
 

@@ -40,7 +40,7 @@ def fullFlowTest(primary_data):
 # 本文件对ADC进行测试
 if __name__ == "__main__":
     # 首先获取原始信号
-    signal = signal_source(1, 30, 1, [440], 2, [10, 0.4])
+    signal = signal_source(1, 30, 1, [442], 2, [10, 0.4])
     signals = [signal]
     simutime = 500
     frame_time = 100

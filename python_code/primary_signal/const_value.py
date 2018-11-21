@@ -38,5 +38,5 @@ class constValue():
 
     # 进行检波的时候连续多少个超过门限
     detect_number = 10
-    # 计算fs参数使用的点数
-    cul_fs_number = 16
+    # 计算FFT使用的点数
+    fft_number = 60
