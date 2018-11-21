@@ -38,5 +38,6 @@ class constValue():
 
     # 进行检波的时候连续多少个超过门限
     detect_number = 10
+    detect_max_value = 0.8
     # 计算FFT使用的点数
     fft_number = 60

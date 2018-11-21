@@ -210,6 +210,7 @@ class AD:
         self.detect_wave(data)
         # 计算参数
         print("开始计算参数")
+        print(self.check_result)
         for indexs in self.check_result:
             current_wave_data = data[indexs[0]: indexs[1]]
             begin_fs, end_fs = self.cul_fs(current_wave_data)
@@ -237,8 +238,9 @@ class AD:
                     end_index = index+constValue.detect_number
                     while primary_wave_abs[end_index] >detect_bais:
                         end_index += 1
-                    tmp = [index ,end_index-1]
-                    self.check_result.append(tmp)
+                    if (np.max(primary_wave[index:end_index]) > constValue.detect_max_value):
+                        tmp = [index ,end_index-1]
+                        self.check_result.append(tmp)
                     # print(end_index - index)
                     index = end_index
 
@@ -253,7 +255,7 @@ class AD:
             fs_max_value = np.max(abs_fs)
             fs_index = np.where(abs_fs == fs_max_value)
 
-            return (self.get_priamry_fs(fs_index[0], self.get_priamry_fs(fs_index[0])))
+            return (self.get_priamry_fs(fs_index[0]), self.get_priamry_fs(fs_index[0]))
         head_abs = np.abs(np.fft.fft(primary_data[0: constValue.fft_number]))
         head_fs = np.max(head_abs)
         head_index = np.where(head_abs == head_fs)
