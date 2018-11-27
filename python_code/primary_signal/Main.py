@@ -16,8 +16,6 @@ def Main():
     priamry_signal_test = priamry_signal(signals, simutime)
     # 写入原始数据
     # priamry_signal_test.write_data("..\data\primary_data.txt")
-    # 写入PDW真值
-    priamry_signal_test.write_param("..\data\PWD.csv")
     priamry_signal_test.show_data(1000, 2000)
     tmp_AD = AD(priamry_signal_test.primary_data, simutime, frame_time)
     tmp_AD.AD_data()

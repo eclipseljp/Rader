@@ -41,3 +41,6 @@ class constValue():
     detect_max_value = 0.8
     # 计算FFT使用的点数
     fft_number = 60
+
+    # 记录原始PDW字的目录
+    primary_pdw_path = "..\data\PWD_Primary.csv"

@@ -38,6 +38,15 @@ class AD:
         self.final_primary_data = []
 
 
+    def read_DOA(self, file_path):
+        '''
+        读取DOA以供以后
+        :param file_path:
+        :return:
+        '''
+
+
+
     def first_complex_ad(self, tmp_index, tmp_signal):
         '''
         第一次进行复采样

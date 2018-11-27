@@ -4,6 +4,7 @@ from primary_signal.const_value import constValue
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
+import pandas as pd
 
 
 class priamry_signal:
@@ -17,6 +18,7 @@ class priamry_signal:
         self.signals = signals
         self.simu_time = simutime
         self.merge_signal()
+        self.write_param(constValue.primary_pdw_path)
 
 
     def merge_signal(self):
@@ -46,6 +48,8 @@ class priamry_signal:
         print("开始写入原始数据")
         np.savetxt(file_path, self.primary_data)
         print("原始数据写入完毕")
+    def write_DOA(self, file_path):
+        pass
 
     def write_param(self, file_path):
         '''
