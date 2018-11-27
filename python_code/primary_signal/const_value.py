@@ -34,7 +34,7 @@ class constValue():
     # 采样频率设置
     first_sample_fs = 480
     second_sample_fs = 60
-    second_base_fs = [-185 ,  -155 ,  -125 ,  -95 ,  -65 ,  -35 ,  -5 ,  25 ,  55 ,  85 ,  115 ,  145 ,  175 ,  205]
+    second_base_fs = [-185, -155, -125, -95, -65, -35, -5, 25, 55, 85, 115, 145, 175, 205]
 
     # 进行检波的时候连续多少个超过门限
     detect_number = 10

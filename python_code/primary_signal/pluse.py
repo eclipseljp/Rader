@@ -26,18 +26,17 @@ class pluse:
         # 生成的信号的点数
         sample_number = int(constValue.system_freq * self.pw)
         self.t = np.linspace(0, sample_number, sample_number)
-        #print(self.t)
-        #print(constValue.system_freq/self.fs)
+        # print(self.t)
+        # print(constValue.system_freq/self.fs)
         # self.plus_signal = (1+np.sin(2*np.pi*self.t/(constValue.system_freq/self.fs)))/2
         # todo
-        self.plus_signal =  np.sin(2 * np.pi * self.t / (constValue.system_freq / self.fs))
+        self.plus_signal = np.sin(2 * np.pi * self.t / (constValue.system_freq / self.fs))
 
 
     # 绘制波形信息
     def draw_data(self):
         plt.plot(self.t, self.plus_signal)
         plt.show()
-
 
 
 if __name__ == "__main__":

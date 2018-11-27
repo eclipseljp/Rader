@@ -1,4 +1,6 @@
 __author__ = 'caocongcong'
+
+
 class PDW:
     def __init__(self, begin_time, begin_fs, end_fs, pw, DOA):
         '''
@@ -30,6 +32,8 @@ class PDW:
         :return:
         '''
         return [self.begin_time, self.begin_fs, self.end_fs, self.pw, self.DOA]
+
+
 if __name__ == "__main__":
     test1 = PDW(20, 10, 20, 10, 32)
     test2 = PDW(10, 10, 20, 10, 32)

@@ -1,9 +1,11 @@
 __author__ = 'caocongcong'
 from primary_signal.signal_source import signal_source
-from primary_signal.ADC import  AD
+from primary_signal.ADC import AD
 import numpy as np
 import matplotlib.pyplot as plt
 from primary_signal.get_primary_signal import priamry_signal
+
+
 def Main():
     # 首先获取需要产生的信号
     signals = get_signals()
@@ -31,14 +33,14 @@ def get_signals():
     # 固定频率和抖动重频
     # test_signal = signal_source(0.4, 30, 1,  [50], 2, [100, 0.4])
     # 固定频率和脉组重频
-    #test_signal = signal_source(0.4, 30, 1,  [50], 3, [100, 10, 0.4])
+    # test_signal = signal_source(0.4, 30, 1,  [50], 3, [100, 10, 0.4])
     # 频率抖动和抖动重频
     # test_signal = signal_source(0.4, 30, 2,  [50, 10], 2, [100, 0.4])
     # 频率抖动和脉组重频
     # test_signal = signal_source(0.4, 30, 2,  [50, 10], 3, [100, 10, 0.4])
     # 频率分集和抖动重频
     # test_signal = signal_source(0.4, 30, 3,  [50, 55, 60, 65, 70], 2, [100, 0.4])
-    #  频率分集和脉组重频
+    # 频率分集和脉组重频
     # test_signal = signal_source(0.4, 30, 3,  [50, 55, 60, 65, 70], 3, [100, 10, 0.4])
     # 频率脉组捷变和抖动重频
     # test_signal = signal_source(0.4, 30, 4,  [50, 8, 0.2], 2, [100, 0.4])
@@ -51,15 +53,14 @@ def get_signals():
 
     # 正式测试
     # 首先生成一组信号
-    test_signal_1 = signal_source(0.4, 30, 1,  [650], 2, [10, 0.4])
-    test_signal_2 = signal_source(0.4, 30, 2,  [50, 10], 3, [100, 10, 0.4])
-    test_signal_3 = signal_source(0.4, 30, 4,  [50, 8, 0.2], 2, [100, 0.4])
-    test_signal_4 =  signal_source(1, 30, 5,  [550, 40, 0.2], 1, [100])
+    test_signal_1 = signal_source(0.4, 30, 1, [650], 2, [10, 0.4])
+    test_signal_2 = signal_source(0.4, 30, 2, [50, 10], 3, [100, 10, 0.4])
+    test_signal_3 = signal_source(0.4, 30, 4, [50, 8, 0.2], 2, [100, 0.4])
+    test_signal_4 = signal_source(1, 30, 5, [550, 40, 0.2], 1, [100])
     # 将一组信号合并成一个list
     test_signal = [test_signal_1]
     # test_signal = [test_signal_1, test_signal_2, test_signal_3, test_signal_4]
     return test_signal
-
 
 
 if __name__ == "__main__":

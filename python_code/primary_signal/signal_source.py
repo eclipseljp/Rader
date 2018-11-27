@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # 记录信号源的类
 class signal_source:
     # 输入参数为脉宽,DOA参数, 频率类型、频率参数、重频类型、重频参数
-    def __init__(self, pw, DOA,  FS_type_input,  FS_params, PRI_type_input, PRI_params):
+    def __init__(self, pw, DOA, FS_type_input, FS_params, PRI_type_input, PRI_params):
         '''
         :param pw: 该信号的脉宽
         :param PRI_type: 重频的类型
@@ -61,7 +61,7 @@ class signal_source:
                 # 首先生成一段不超过PRI的随机时间作为起始时间
                 start_time = self.get_start_time(signal_pri)
                 # 保留两位
-                #print("当前生成的起始时间", start_time)
+                # print("当前生成的起始时间", start_time)
                 current_time = start_time
                 # 开始生成信号
                 # 当当前的时间不超过仿真的总时间
@@ -92,7 +92,7 @@ class signal_source:
                     self.PDW.append(tmp_PDW)
                     self.signal_pluses.append(tmp_pluse)
                     # 随机生成与下一个脉冲的间隔时间
-                    tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                    tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                     current_time += (self.pw + tmp_prt)
             else:
                 print("固定频率和脉组")
@@ -109,7 +109,7 @@ class signal_source:
                 current_time = start_time
                 # pri的计数器
                 pri_order = 0
-                tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                 while current_time < simu_time:
                     if (pri_order < pri_num):
                         # 使用当前的重频不变
@@ -125,7 +125,7 @@ class signal_source:
                         # print("当前重频:", tmp_prt)
                     else:
                         # 生成新的重频
-                        tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                        tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                         # pri的计数器清零
                         pri_order = 0
         elif FS_type(self.FS_type_need) == FS_type.fs_agile:
@@ -143,13 +143,13 @@ class signal_source:
                 # 首先生成一段不超过PRI的随机时间作为起始时间
                 start_time = self.get_start_time(signal_pri)
                 # 保留两位
-                #print("当前生成的起始时间", start_time)
+                # print("当前生成的起始时间", start_time)
                 current_time = start_time
                 # 开始生成信号
                 # 当当前的时间不超过仿真的总时间
                 while current_time < simu_time:
                     # 生成一个脉冲
-                    tmp_fs = signal_fs + random.random()*signal_fs_range
+                    tmp_fs = signal_fs + random.random() * signal_fs_range
                     tmp_pluse = pluse(tmp_fs, current_time, self.pw, self.DOA)
                     tmp_PDW = PDW(current_time, tmp_fs, tmp_fs, self.pw, self.DOA)
                     self.PDW.append(tmp_PDW)
@@ -170,13 +170,13 @@ class signal_source:
                 # 保留两位
                 current_time = start_time
                 while current_time < simu_time:
-                    tmp_fs = signal_fs + random.random()*signal_fs_range
+                    tmp_fs = signal_fs + random.random() * signal_fs_range
                     tmp_pluse = pluse(tmp_fs, current_time, self.pw, self.DOA)
                     tmp_PDW = PDW(current_time, tmp_fs, tmp_fs, self.pw, self.DOA)
                     self.PDW.append(tmp_PDW)
                     self.signal_pluses.append(tmp_pluse)
                     # 随机生成与下一个脉冲的间隔时间
-                    tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                    tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                     current_time += (self.pw + tmp_prt)
             else:
                 print("频率捷变和脉组重频")
@@ -193,11 +193,11 @@ class signal_source:
                 current_time = start_time
                 # pri的计数器
                 pri_order = 0
-                tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                 while current_time < simu_time:
                     if (pri_order < pri_num):
                         # 使用当前的重频不变
-                        tmp_fs = signal_fs + random.random()*signal_fs_range
+                        tmp_fs = signal_fs + random.random() * signal_fs_range
                         tmp_pluse = pluse(tmp_fs, current_time, self.pw, self.DOA)
                         tmp_PDW = PDW(current_time, tmp_fs, tmp_fs, self.pw, self.DOA)
                         self.PDW.append(tmp_PDW)
@@ -210,7 +210,7 @@ class signal_source:
                         # print("当前重频:", tmp_prt)
                     else:
                         # 生成新的重频
-                        tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                        tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                         # pri的计数器清零
                         pri_order = 0
         elif FS_type(self.FS_type_need) == FS_type.fs_diversity:
@@ -226,7 +226,7 @@ class signal_source:
                 # 首先生成一段不超过PRI的随机时间作为起始时间
                 start_time = self.get_start_time(signal_pri)
                 # 保留两位
-                #print("当前生成的起始时间", start_time)
+                # print("当前生成的起始时间", start_time)
                 current_time = start_time
                 # 开始生成信号
                 # 当当前的时间不超过仿真的总时间
@@ -267,7 +267,7 @@ class signal_source:
                     self.PDW.append(tmp_PDW)
                     self.signal_pluses.append(tmp_pluse)
                     # 随机生成与下一个脉冲的间隔时间
-                    tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                    tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                     current_time += (self.pw + tmp_prt)
                     if fs_order == len(signal_fs):
                         fs_order = 0
@@ -287,7 +287,7 @@ class signal_source:
                 current_time = start_time
                 # pri的计数器
                 pri_order = 0
-                tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                 fs_order = 0
                 while current_time < simu_time:
                     if (pri_order < pri_num):
@@ -306,7 +306,7 @@ class signal_source:
                         # print("当前重频:", tmp_prt)
                     else:
                         # 生成新的重频
-                        tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                        tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                         # pri的计数器清零
                         pri_order = 0
                     if fs_order == len(signal_fs):
@@ -317,7 +317,7 @@ class signal_source:
             signal_fs = self.FS_params[0]
             signal_fs_number = self.FS_params[1]
             signal_fs_range = self.FS_params[2]
-            tmp_fs = signal_fs * (1 + random.random()*signal_fs_range - (signal_fs_range/2))
+            tmp_fs = signal_fs * (1 + random.random() * signal_fs_range - (signal_fs_range / 2))
 
             if PRI_type(self.PRI_type_need) == PRI_type.pri_fixed:
                 print("频率脉组捷变固定重频")
@@ -327,7 +327,7 @@ class signal_source:
                 # 首先生成一段不超过PRI的随机时间作为起始时间
                 start_time = self.get_start_time(signal_pri)
                 # 保留两位
-                #print("当前生成的起始时间", start_time)
+                # print("当前生成的起始时间", start_time)
                 current_time = start_time
                 # 开始生成信号
                 # 当前的时间不超过仿真的总时间
@@ -348,7 +348,7 @@ class signal_source:
                     if fs_number_order == signal_fs_number:
                         fs_number_order = 0
                         # 重新生成新的频率
-                        tmp_fs = signal_fs * (1 + random.random()*signal_fs_range - (signal_fs_range/2))
+                        tmp_fs = signal_fs * (1 + random.random() * signal_fs_range - (signal_fs_range / 2))
 
             elif PRI_type(self.PRI_type_need) == PRI_type.pri_irre:
                 # 重频为抖动的情况下
@@ -370,14 +370,14 @@ class signal_source:
                     # 当前计数+1
                     fs_number_order += 1
                     # 随机生成与下一个脉冲的间隔时间
-                    tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                    tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                     current_time += (self.pw + tmp_prt)
-                     # 如果选满了，就重新开始
+                    # 如果选满了，就重新开始
                     if fs_number_order == signal_fs_number:
                         fs_number_order = 0
                         # 重新生成新的频率
                         # print("频率更新")
-                        tmp_fs = signal_fs * (1 + random.random()*signal_fs_range - (signal_fs_range/2))
+                        tmp_fs = signal_fs * (1 + random.random() * signal_fs_range - (signal_fs_range / 2))
 
             else:
                 print("频率脉组捷变和脉组重频")
@@ -395,7 +395,7 @@ class signal_source:
                 # pri的计数器
                 pri_order = 0
                 fs_number_order = 0
-                tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                 while current_time < simu_time:
                     if (pri_order < pri_num):
                         # 使用当前的重频不变
@@ -413,13 +413,13 @@ class signal_source:
 
                     else:
                         # 生成新的重频
-                        tmp_prt = signal_pri* (1 + random.random() * signal_pri_range - (signal_pri_range/2))
+                        tmp_prt = signal_pri * (1 + random.random() * signal_pri_range - (signal_pri_range / 2))
                         # pri的计数器清零
                         pri_order = 0
                     if fs_number_order == signal_fs_number:
                         fs_number_order = 0
                         # 重新生成新的频率
-                        tmp_fs = signal_fs * (1 + random.random()*signal_fs_range - (signal_fs_range/2))
+                        tmp_fs = signal_fs * (1 + random.random() * signal_fs_range - (signal_fs_range / 2))
 
     # 生成随机的起始时间
     def get_start_time(self, signal_pri):
@@ -434,7 +434,7 @@ class signal_source:
         # 总共产生的点数
         # 计算方式为采样仿真时间*系统采样频率
         total_num = int(self.simu_time * constValue.system_freq)
-        #print(total_num)
+        # print(total_num)
         self.signal = np.zeros(total_num)
         for tmp_pluse in self.signal_pluses:
             # 让当前的脉冲生成模拟信号
@@ -447,7 +447,7 @@ class signal_source:
             # 根据当前时间计算偏执
             bias = int(tmp_pluse.begin_time * constValue.system_freq)
             # 叠加到原始信号上
-            self.signal[bias: bias+lenght] += tmp_signal
+            self.signal[bias: bias + lenght] += tmp_signal
 
         # 对于线性调频信号单独处理
         current_time = 0
@@ -469,16 +469,16 @@ class signal_source:
             # 获取起始时间
             current_time = self.get_start_time(signal_pri)
             while current_time < self.simu_time:
-                tmp_fs = begin_fs*(1+random.random()*fs_range - fs_range/2)
+                tmp_fs = begin_fs * (1 + random.random() * fs_range - fs_range / 2)
                 tmp_signal = self.get_LFM(tmp_fs, K, self.pw)
-                tmp_PDW = PDW(current_time, tmp_fs, tmp_fs+Band, self.pw, self.DOA)
+                tmp_PDW = PDW(current_time, tmp_fs, tmp_fs + Band, self.pw, self.DOA)
                 self.PDW.append(tmp_PDW)
                 # 当前生成信号的长度
                 lenght = tmp_signal.shape[0]
                 # 根据当前时间计算偏执
                 bias = int(current_time * constValue.system_freq)
                 # 叠加到原始信号上
-                self.signal[bias: bias+lenght] += tmp_signal
+                self.signal[bias: bias + lenght] += tmp_signal
                 # 更新起始时间
                 current_time += self.pw + signal_pri
         elif FS_type(self.FS_type_need) == FS_type.lager_bandwidth_LFM:
@@ -506,17 +506,17 @@ class signal_source:
             frame_fs_change = Band / fs_frame_number
             used_fs = begin_fs + frame_fs_change * frame_order
             while current_time < self.simu_time:
-                tmp_fs = used_fs*(1+random.random()*fs_range - fs_range/2)
+                tmp_fs = used_fs * (1 + random.random() * fs_range - fs_range / 2)
                 frame_order += 1
                 tmp_signal = self.get_LFM(tmp_fs, K, self.pw)
-                tmp_PDW = PDW(current_time, tmp_fs, tmp_fs+frame_fs_change, self.pw, self.DOA)
+                tmp_PDW = PDW(current_time, tmp_fs, tmp_fs + frame_fs_change, self.pw, self.DOA)
                 self.PDW.append(tmp_PDW)
                 # 当前生成信号的长度
                 lenght = tmp_signal.shape[0]
                 # 根据当前时间计算偏执
                 bias = int(current_time * constValue.system_freq)
                 # 叠加到原始信号上
-                self.signal[bias: bias+lenght] += tmp_signal
+                self.signal[bias: bias + lenght] += tmp_signal
                 # 更新起始时间
                 current_time += self.pw + signal_pri
 
@@ -527,13 +527,8 @@ class signal_source:
                 used_fs = begin_fs + frame_fs_change * frame_order
 
 
-
-
-
-
-
     # 增加信道噪声
-    def add_channel(self, SNR = 0):
+    def add_channel(self, SNR=0):
         '''
         :param SNR:信道的信噪比
         :return:
@@ -548,15 +543,16 @@ class signal_source:
         :return:
         '''
         # 将SNR由dB单位转化成倍数关系
-        snr = 10**(SNR/10.0)
+        snr = 10 ** (SNR / 10.0)
         # 计算原始信号功率
-        xpower = np.sum(self.signal**2)/len(self.signal)
+        xpower = np.sum(self.signal ** 2) / len(self.signal)
         # 根据信噪比计算已经增加的噪声的功率
         npower = xpower / snr
         # 随机生成噪声
-        noise =  np.random.randn(len(self.signal)) * np.sqrt(npower)
+        noise = np.random.randn(len(self.signal)) * np.sqrt(npower)
         # 将噪声叠加到原始信号上去
         self.signal += noise
+
     # 绘制信号
     def draw(self, number_begin, number_end):
         '''
@@ -580,8 +576,10 @@ class signal_source:
         # 采样时间
         t = np.linspace(0, pw, N)
         # signal = 0.5*np.sin(2*np.pi*begin_fs*t + np.pi*k*t*t)+0.5
-        signal = np.sin(2*np.pi*begin_fs*t + np.pi*k*t*t)
+        signal = np.sin(2 * np.pi * begin_fs * t + np.pi * k * t * t)
         return signal
+
+
 if __name__ == "__main__":
     pass
 

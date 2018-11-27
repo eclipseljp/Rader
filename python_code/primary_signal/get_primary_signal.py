@@ -4,6 +4,8 @@ from primary_signal.const_value import constValue
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
+
+
 class priamry_signal:
     def __init__(self, signals, simutime):
         '''
