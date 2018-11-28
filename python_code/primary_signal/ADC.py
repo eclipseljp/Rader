@@ -6,6 +6,7 @@ from scipy import signal
 from util.fluter import fluter_design
 import csv
 from primary_signal.DOA_Param import DOA_Param
+import random
 
 # 进行信号的采样
 
@@ -235,7 +236,7 @@ class AD:
             TOA = round(indexs[0] / constValue.second_sample_fs, 1)
             PW = round((indexs[1] - indexs[0]) / constValue.second_sample_fs, 1)
             PA = round(np.mean(np.abs(data[indexs[0]:indexs[1]])), 3)
-            DOA = self.doa_data.findClosest(TOA)
+            DOA = round(self.doa_data.findClosest(TOA) + random.uniform(0, 3) - 1.5, 3)
             print("起点频率:", begin_final_fs, "终点频率:", end_final_fs, "TOA:", TOA, "PW:", PW, "PA:", PA, "DOA", DOA)
 
 
