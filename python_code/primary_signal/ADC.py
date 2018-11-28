@@ -4,6 +4,8 @@ from primary_signal.const_value import constValue
 import numpy as np
 from scipy import signal
 from util.fluter import fluter_design
+import csv
+from primary_signal.DOA_Param import DOA_Param
 
 # 进行信号的采样
 
@@ -36,15 +38,24 @@ class AD:
         self.seconde_base = constValue.second_base_fs
         # 保存最终的信号
         self.final_primary_data = []
+        self.doa_data = None
+        self.read_DOA()
 
-
-    def read_DOA(self, file_path):
+    def read_DOA(self):
         '''
-        读取DOA以供以后
+        读取DOA以供以后后面查询
         :param file_path:
         :return:
         '''
-
+        begin_time = []
+        doa = []
+        with open(constValue.primary_pdw_path) as f:
+            f_csv = csv.reader(f)
+            header = next(f_csv)
+            for row in f_csv:
+                begin_time.append(float(row[0]))
+                doa.append(float(row[-1]) )
+        self.doa_data = DOA_Param(begin_time, doa)
 
 
     def first_complex_ad(self, tmp_index, tmp_signal):
@@ -224,7 +235,8 @@ class AD:
             TOA = round(indexs[0] / constValue.second_sample_fs, 1)
             PW = round((indexs[1] - indexs[0]) / constValue.second_sample_fs, 1)
             PA = round(np.mean(np.abs(data[indexs[0]:indexs[1]])), 3)
-            print("起点频率:", begin_final_fs, "终点频率:", end_final_fs, "TOA:", TOA, "PW:", PW, "PA:", PA)
+            DOA = self.doa_data.findClosest(TOA)
+            print("起点频率:", begin_final_fs, "终点频率:", end_final_fs, "TOA:", TOA, "PW:", PW, "PA:", PA, "DOA", DOA)
 
 
     # 将一段波形中的有效片段截取出来
@@ -244,7 +256,7 @@ class AD:
                     end_index = index + constValue.detect_number
                     while primary_wave_abs[end_index] > detect_bais:
                         end_index += 1
-                    if (np.max(primary_wave[index:end_index]) > constValue.detect_max_value):
+                    if np.max(primary_wave[index:end_index]) > constValue.detect_max_value:
                         tmp = [index, end_index - 1]
                         self.check_result.append(tmp)
                     # print(end_index - index)
@@ -261,14 +273,14 @@ class AD:
             fs_max_value = np.max(abs_fs)
             fs_index = np.where(abs_fs == fs_max_value)
 
-            return (self.get_priamry_fs(fs_index[0]), self.get_priamry_fs(fs_index[0]))
+            return self.get_priamry_fs(fs_index[0]), self.get_priamry_fs(fs_index[0])
         head_abs = np.abs(np.fft.fft(primary_data[0: constValue.fft_number]))
         head_fs = np.max(head_abs)
         head_index = np.where(head_abs == head_fs)
         tail_abs = np.abs(np.fft.fft(primary_data[-constValue.fft_number:]))
         tail_fs = np.max(tail_abs)
         tail_index = np.where(tail_abs == tail_fs)
-        return (self.get_priamry_fs(head_index[0]), self.get_priamry_fs(tail_index[0]))
+        return self.get_priamry_fs(head_index[0]), self.get_priamry_fs(tail_index[0])
 
 
     # 根据fft计算后位置得到具体的值
