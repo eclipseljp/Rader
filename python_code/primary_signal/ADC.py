@@ -7,6 +7,8 @@ from util.fluter import fluter_design
 import csv
 from primary_signal.DOA_Param import DOA_Param
 import random
+from primary_signal.PDW import PDW
+from util.Tool import write_PDW
 
 # 进行信号的采样
 
@@ -41,6 +43,7 @@ class AD:
         self.final_primary_data = []
         self.doa_data = None
         self.read_DOA()
+        self.ad_pwd = []
 
 
     def read_DOA(self):
@@ -217,6 +220,8 @@ class AD:
 
             frist_index += 1
 
+        write_PDW(constValue.pdw_path, self.ad_pwd)
+
 
     # 进行参数测量
     def cul_param(self, data, frist_index, second_tmp_index):
@@ -239,6 +244,7 @@ class AD:
             PA = round(np.mean(np.abs(data[indexs[0]:indexs[1]])), 3)
             DOA = round(self.doa_data.findClosest(TOA) + random.uniform(0, 3) - 1.5, 3)
             print("起点频率:", begin_final_fs, "终点频率:", end_final_fs, "TOA:", TOA, "PW:", PW, "PA:", PA, "DOA", DOA)
+            self.ad_pwd.append(PDW(TOA, begin_final_fs, end_final_fs, PW, DOA))
 
 
     # 将一段波形中的有效片段截取出来
@@ -300,5 +306,4 @@ class AD:
         if index < constValue.fft_number / 2:
             return -index[0]
         else:
-            return index[0] - constValue.fft_number / 2
-
+            return constValue.fft_number - index[0]

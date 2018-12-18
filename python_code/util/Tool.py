@@ -1,6 +1,7 @@
 __author__ = 'cao'
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 # 一些工具的使用
 
 # 展示数据的频率和时域
@@ -46,3 +47,18 @@ def show_data_cursor(primary_data, cursors):
         plt.plot([cursor[0], cursor[0]] , [min_value, max_value], "r")
         plt.plot( [cursor[1], cursor[1]], [min_value, max_value], "r")
     plt.show()
+
+def write_PDW(file_path, data):
+    # 首先对PDW进行排序
+    data.sort()
+    # 开始写入PDW参数
+    print("开始写入参数")
+    header = ["begin_time", "begin_fs", "end_fs", "pw", "DOA"]
+    with open(file_path, 'w', newline='') as f:
+        writter = csv.writer(f)
+        # 首先写入频率参数
+        writter.writerow(header)
+        for tmp_pdw in data:
+            param_list = tmp_pdw.to_list()
+            writter.writerow(param_list)
+    print("参数写入完毕")

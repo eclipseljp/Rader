@@ -43,13 +43,13 @@ def fullFlowTest(primary_data):
 # 本文件对ADC进行测试
 if __name__ == "__main__":
     # 首先获取原始信号
-    # signal = signal_source(1, 30, 1, [442], 2, [10, 0.4])
-    test_signal_2 = signal_source(3, 30, 4, [100, 8, 0.2], 2, [23, 0.4])
-    signals = [test_signal_2]
+    signal = signal_source(2, 30, 2, [70, 10], 3, [17, 10, 0.4])
+    # test_signal_2 = signal_source(3, 30, 4, [100, 8, 0.2], 2, [23, 0.4])
+    signals = [signal]
     simutime = 500
     frame_time = 100
     priamry_signal_test = priamry_signal(signals, simutime)
     # 获取原始信号
     primary_data = priamry_signal_test.primary_data
     show_Data(primary_data)
-    cul_param_test(primary_data, 0, 3)
+    cul_param_test(primary_data, 0, 2)
