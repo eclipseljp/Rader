@@ -4,7 +4,6 @@ from primary_signal.const_value import constValue
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
-import pandas as pd
 
 
 class priamry_signal:
@@ -85,4 +84,5 @@ class priamry_signal:
         end_number = int(end_time * constValue.system_freq)
         # 进行绘制
         plt.plot(self.primary_data[begin_number:end_number])
+        plt.title("primary signal")
         plt.show()

@@ -38,9 +38,12 @@ class constValue():
 
     # 进行检波的时候连续多少个超过门限
     detect_number = 10
-    detect_max_value = 0.8
+    detect_max_value_afa = 0.2
     # 计算FFT使用的点数
     fft_number = 60
 
     # 记录原始PDW字的目录
     primary_pdw_path = "..\data\PWD_Primary.csv"
+
+    # 记录得到的PDW字的目录
+    pdw_path = "..\data\PDW.csv"

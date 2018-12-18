@@ -42,6 +42,7 @@ class AD:
         self.doa_data = None
         self.read_DOA()
 
+
     def read_DOA(self):
         '''
         读取DOA以供以后后面查询
@@ -222,12 +223,12 @@ class AD:
         # 此次计算的基础频率
         base_fs = self.frist_base[frist_index % len(self.frist_base)] + self.seconde_base[
             second_tmp_index % len(self.seconde_base)]
-        print(base_fs)
         # 时域检查波形
         self.detect_wave(data)
         # 计算参数
         print("开始计算参数")
         print(self.check_result)
+        print("该次测量的基础频率：", base_fs)
         for indexs in self.check_result:
             current_wave_data = data[indexs[0]: indexs[1]]
             begin_fs, end_fs = self.cul_fs(current_wave_data)
@@ -246,24 +247,34 @@ class AD:
         # 首先计算绝对值
         primary_wave_abs = np.abs(primary_wave)
         primary_wave_mean = np.mean(primary_wave_abs)
-        detect_bais = primary_wave_mean
+        detect_bias = primary_wave_mean
         # 检波的
         index = 0
         self.check_result = []
+        # print("信号全局最大值：", )
         while index < len(primary_wave_abs):
-            if primary_wave_abs[index] > detect_bais:
+            if primary_wave_abs[index] > detect_bias:
+                # print("此处index的幅值大于均值: ",index)
                 if sum(primary_wave_abs[
-                       index: index + constValue.detect_number] > detect_bais) == constValue.detect_number:
+                       index: index + constValue.detect_number] > detect_bias) == constValue.detect_number:
                     end_index = index + constValue.detect_number
-                    while primary_wave_abs[end_index] > detect_bais:
-                        end_index += 1
-                    if np.max(primary_wave[index:end_index]) > constValue.detect_max_value:
+                    try:
+                        while (end_index < (len(primary_wave_abs)-1)) and primary_wave_abs[end_index] > detect_bias:
+                            end_index += 1
+                    except IndexError:
+                        print(IndexError)
+
+                    choose_data = np.copy(primary_wave_abs[index: end_index])
+                    choose_data = choose_data[np.argsort(choose_data)]
+                    choose_length = int(len(choose_data)/10)
+                    choose_bisa = np.mean(choose_data[-choose_length:])
+                    if choose_bisa > constValue.detect_max_value_afa:
                         tmp = [index, end_index - 1]
                         self.check_result.append(tmp)
                     # print(end_index - index)
                     index = end_index
-
             index += 1
+
 
 
     # 计算一段的频率参数
@@ -290,5 +301,4 @@ class AD:
             return -index[0]
         else:
             return index[0] - constValue.fft_number / 2
-
 
