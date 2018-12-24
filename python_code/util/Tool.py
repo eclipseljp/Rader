@@ -53,7 +53,7 @@ def write_PDW(file_path, data):
     data.sort()
     # 开始写入PDW参数
     print("开始写入参数")
-    header = ["begin_time", "begin_fs", "end_fs", "pw", "DOA"]
+    header = ["begin_time", "begin_fs", "end_fs", "pw", "DOA", "PA"]
     with open(file_path, 'w', newline='') as f:
         writter = csv.writer(f)
         # 首先写入频率参数

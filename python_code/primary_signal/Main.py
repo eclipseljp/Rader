@@ -52,13 +52,20 @@ def get_signals():
 
     # 正式测试
     # 首先生成一组信号
-    test_signal_1 = signal_source(1, 30, 1, [42], 2, [10, 0.4])
-    test_signal_2 = signal_source(2, 30, 2, [70, 10], 3, [17, 10, 0.4])
-    test_signal_3 = signal_source(3, 30, 4, [100, 8, 0.2], 2, [23, 0.4])
-    # test_signal_4 = signal_source(1, 30, 5, [250, 40, 0.2], 1, [31])
+    test_signal_5 = signal_source(4, 30, 1, [310], 2, [50, 0.4])
+    test_signal_6 = signal_source(1, 30, 1, [110], 2, [10, 0.4])
+    test_signal_7 = signal_source(1, 30, 1, [157], 2, [10, 0.4])
+    test_signal_4 = signal_source(5, 30, 1, [42], 2, [30, 0.4])
+    test_signal_1 = signal_source(1, 30, 1, [220], 2, [100, 0.4])
+    test_signal_8 = signal_source(2, 30, 2, [230, 10], 3, [170, 10, 0.4])
+    test_signal_9 = signal_source(2, 30, 2, [270, 10], 3, [170, 10, 0.4])
+    test_signal_10 = signal_source(2, 30, 2, [350, 10], 3, [170, 10, 0.4])
+    test_signal_2 = signal_source(2, 30, 2, [70, 10], 3, [170, 10, 0.4])
+    test_signal_3 = signal_source(3, 30, 4, [100, 8, 0.2], 2, [230, 0.4])
     # 将一组信号合并成一个list
     # test_signal = [test_signal_3]
-    test_signal = [test_signal_1, test_signal_2, test_signal_3]
+    test_signal = [test_signal_1, test_signal_2, test_signal_3, test_signal_4, test_signal_5,
+                   test_signal_6, test_signal_7, test_signal_8, test_signal_9, test_signal_10]
     return test_signal
 
 

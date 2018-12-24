@@ -2,7 +2,7 @@ __author__ = 'caocongcong'
 
 
 class PDW:
-    def __init__(self, begin_time, begin_fs, end_fs, pw, DOA):
+    def __init__(self, begin_time, begin_fs, end_fs, pw, DOA, PA = 1):
         '''
         脉冲描述字类，传入的参数包括起始时间、起始频率、截至频率、脉宽、到达角
         :param begin_time: 该脉冲的起始时间
@@ -17,6 +17,7 @@ class PDW:
         self.end_fs = end_fs
         self.pw = pw
         self.DOA = DOA
+        self.PA = PA
 
     def __lt__(self, other):
         '''
@@ -31,7 +32,7 @@ class PDW:
         返回一个list,写入csv比较方便
         :return:
         '''
-        return [self.begin_time, self.begin_fs, self.end_fs, self.pw, self.DOA]
+        return [self.begin_time, self.begin_fs, self.end_fs, self.pw, self.DOA, self.PA]
 
 
 if __name__ == "__main__":

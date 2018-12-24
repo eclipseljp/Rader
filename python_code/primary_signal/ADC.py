@@ -59,7 +59,7 @@ class AD:
             header = next(f_csv)
             for row in f_csv:
                 begin_time.append(float(row[0]))
-                doa.append(float(row[-1]) )
+                doa.append(float(row[-2]) )
         self.doa_data = DOA_Param(begin_time, doa)
 
 
@@ -244,7 +244,7 @@ class AD:
             PA = round(np.mean(np.abs(data[indexs[0]:indexs[1]])), 3)
             DOA = round(self.doa_data.findClosest(TOA) + random.uniform(0, 3) - 1.5, 3)
             print("起点频率:", begin_final_fs, "终点频率:", end_final_fs, "TOA:", TOA, "PW:", PW, "PA:", PA, "DOA", DOA)
-            self.ad_pwd.append(PDW(TOA, begin_final_fs, end_final_fs, PW, DOA))
+            self.ad_pwd.append(PDW(TOA, begin_final_fs, end_final_fs, PW, DOA, PA))
 
 
     # 将一段波形中的有效片段截取出来
