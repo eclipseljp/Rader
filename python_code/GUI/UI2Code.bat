@@ -1,1 +1,1 @@
-python -m PyQt5.uic.pyuic main.ui -o mainGUI.py
+python -m PyQt5.uic.pyuic CreateRadar.ui -o CreateRadarGUI.py
