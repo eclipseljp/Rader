@@ -95,11 +95,11 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.label_7.setFont(font)
         self.label_7.setObjectName("label_7")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(410, 280, 93, 28))
-        self.pushButton.setObjectName("pushButton")
+        self.create_radar = QtWidgets.QPushButton(self.centralwidget)
+        self.create_radar.setGeometry(QtCore.QRect(440, 280, 93, 28))
+        self.create_radar.setObjectName("create_radar")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(590, 280, 93, 28))
+        self.pushButton_2.setGeometry(QtCore.QRect(650, 280, 93, 28))
         self.pushButton_2.setObjectName("pushButton_2")
         self.label_9 = QtWidgets.QLabel(self.centralwidget)
         self.label_9.setGeometry(QtCore.QRect(30, 330, 191, 41))
@@ -184,8 +184,8 @@ class Ui_MainWindow(object):
         self.signal_button.setText(_translate("MainWindow", "选择"))
         self.label_10.setText(_translate("MainWindow", "信号输出目录:"))
         self.label_7.setText(_translate("MainWindow", "雷达仿真参数设置:"))
-        self.pushButton.setText(_translate("MainWindow", "新建雷达"))
-        self.pushButton_2.setText(_translate("MainWindow", "新建雷达"))
+        self.create_radar.setText(_translate("MainWindow", "新建雷达"))
+        self.pushButton_2.setText(_translate("MainWindow", "清空雷达"))
         self.label_9.setText(_translate("MainWindow", "原始信号观测:"))
         self.label_11.setText(_translate("MainWindow", "起始时间:"))
         self.label_12.setText(_translate("MainWindow", "结束时间:"))
@@ -193,4 +193,7 @@ class Ui_MainWindow(object):
         self.label_15.setText(_translate("MainWindow", "us"))
         self.pushButton_3.setText(_translate("MainWindow", "修改"))
         self.pushButton_4.setText(_translate("MainWindow", "保存"))
+
+    def add_event(self):
+        pass
 

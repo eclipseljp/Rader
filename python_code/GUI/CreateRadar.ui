@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
+    <width>435</width>
     <height>527</height>
    </rect>
   </property>
@@ -16,7 +16,7 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>-40</x>
      <y>430</y>
      <width>341</width>
      <height>32</height>
@@ -47,11 +47,11 @@
     <string>新建雷达：</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>70</y>
+     <x>60</x>
+     <y>80</y>
      <width>101</width>
      <height>291</height>
     </rect>
@@ -131,99 +131,131 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QLineEdit" name="radar_sn">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>60</y>
-     <width>173</width>
-     <height>311</height>
+     <x>170</x>
+     <y>90</y>
+     <width>191</width>
+     <height>21</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QLineEdit" name="radar_sn"/>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="radar_name"/>
-    </item>
-    <item>
-     <widget class="QComboBox" name="signal_type">
-      <item>
-       <property name="text">
-        <string>单频雷达</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>线性调频</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="pri_type">
-      <item>
-       <property name="text">
-        <string>重频脉组</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>重频参差</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>重频抖动</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>重频固定</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="fs_type">
-      <item>
-       <property name="text">
-        <string>频率固定</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>频率分集</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>频率脉间捷变</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>重频脉组捷变</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="lfm_type">
-      <item>
-       <property name="text">
-        <string>大带宽LFM</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>频率捷变LFM</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-   </layout>
+  </widget>
+  <widget class="QLineEdit" name="radar_name">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>140</y>
+     <width>191</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="lfm_type">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>340</y>
+     <width>191</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>大带宽LFM</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>频率捷变LFM</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="pri_type">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>240</y>
+     <width>191</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>重频脉组</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>重频参差</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>重频抖动</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>重频固定</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="fs_type">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>290</y>
+     <width>191</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>频率固定</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>频率分集</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>频率脉间捷变</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>重频脉组捷变</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QCheckBox" name="single_fs">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>190</y>
+     <width>91</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>单频信号</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="LFM">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>190</y>
+     <width>91</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>线性调频</string>
+   </property>
   </widget>
  </widget>
  <resources/>

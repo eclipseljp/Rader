@@ -281,7 +281,7 @@
      <string>雷达仿真参数设置:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="create_radar">
     <property name="geometry">
      <rect>
       <x>440</x>
