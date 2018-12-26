@@ -12,11 +12,6 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(435, 527)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(-40, 430, 341, 32))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
         self.label_6 = QtWidgets.QLabel(Dialog)
         self.label_6.setGeometry(QtCore.QRect(20, 10, 111, 41))
         font = QtGui.QFont()
@@ -96,6 +91,12 @@ class Ui_Dialog(object):
         self.LFM = QtWidgets.QCheckBox(Dialog)
         self.LFM.setGeometry(QtCore.QRect(270, 190, 91, 19))
         self.LFM.setObjectName("LFM")
+        self.sure = QtWidgets.QPushButton(Dialog)
+        self.sure.setGeometry(QtCore.QRect(110, 420, 61, 28))
+        self.sure.setObjectName("sure")
+        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_2.setGeometry(QtCore.QRect(240, 420, 61, 28))
+        self.pushButton_2.setObjectName("pushButton_2")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -122,4 +123,6 @@ class Ui_Dialog(object):
         self.fs_type.setItemText(3, _translate("Dialog", "重频脉组捷变"))
         self.single_fs.setText(_translate("Dialog", "单频信号"))
         self.LFM.setText(_translate("Dialog", "线性调频"))
+        self.sure.setText(_translate("Dialog", "确定"))
+        self.pushButton_2.setText(_translate("Dialog", "取消"))
 
