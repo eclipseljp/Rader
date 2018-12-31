@@ -4,7 +4,6 @@
 import sys
 from GUI import CreateRadarGUI
 from PyQt5.QtWidgets import QApplication, QDialog
-from model.createRadarVo import createRadarVo
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     qDialog = QDialog()

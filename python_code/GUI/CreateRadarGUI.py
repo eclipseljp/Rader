@@ -120,7 +120,7 @@ class Ui_Dialog(object):
         self.fs_type.setItemText(0, _translate("Dialog", "频率固定"))
         self.fs_type.setItemText(1, _translate("Dialog", "频率分集"))
         self.fs_type.setItemText(2, _translate("Dialog", "频率脉间捷变"))
-        self.fs_type.setItemText(3, _translate("Dialog", "重频脉组捷变"))
+        self.fs_type.setItemText(3, _translate("Dialog", "频率脉组捷变"))
         self.single_fs.setText(_translate("Dialog", "单频信号"))
         self.LFM.setText(_translate("Dialog", "线性调频"))
         self.sure.setText(_translate("Dialog", "确定"))
