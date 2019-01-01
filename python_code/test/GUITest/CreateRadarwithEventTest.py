@@ -7,6 +7,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     MainWindow = QMainWindow()
-    ui = CreateRadarwithEventGUI(MainWindow)
-    MainWindow.show()
+    ui = CreateRadarwithEventGUI()
+    ui.show()
     sys.exit(app.exec_())
