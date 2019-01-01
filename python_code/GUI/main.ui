@@ -325,39 +325,6 @@
      <string>原始信号观测:</string>
     </property>
    </widget>
-   <widget class="QScrollArea" name="scrollArea">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>46</y>
-      <width>491</width>
-      <height>211</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>489</width>
-       <height>209</height>
-      </rect>
-     </property>
-     <widget class="QTableView" name="tableView">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>491</width>
-        <height>211</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-   </widget>
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
@@ -490,6 +457,16 @@
     </property>
     <property name="text">
      <string>保存</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>50</y>
+      <width>481</width>
+      <height>201</height>
+     </rect>
     </property>
    </widget>
   </widget>

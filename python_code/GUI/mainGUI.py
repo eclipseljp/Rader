@@ -107,17 +107,6 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         self.label_9.setFont(font)
         self.label_9.setObjectName("label_9")
-        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
-        self.scrollArea.setGeometry(QtCore.QRect(360, 46, 491, 211))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 489, 209))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.tableView = QtWidgets.QTableView(self.scrollAreaWidgetContents)
-        self.tableView.setGeometry(QtCore.QRect(0, 0, 491, 211))
-        self.tableView.setObjectName("tableView")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(0, 320, 901, 16))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
@@ -155,6 +144,11 @@ class Ui_MainWindow(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(170, 280, 93, 28))
         self.pushButton_4.setObjectName("pushButton_4")
+        self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        self.tableWidget.setGeometry(QtCore.QRect(360, 50, 481, 201))
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(0)
+        self.tableWidget.setRowCount(0)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 900, 26))
@@ -193,7 +187,4 @@ class Ui_MainWindow(object):
         self.label_15.setText(_translate("MainWindow", "us"))
         self.pushButton_3.setText(_translate("MainWindow", "修改"))
         self.pushButton_4.setText(_translate("MainWindow", "保存"))
-
-    def add_event(self):
-        pass
 
