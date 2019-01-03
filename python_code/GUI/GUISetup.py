@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 
 from GUI.mainGUI import Ui_MainWindow
 from GUI.CreateRadarwithEventGUI import CreateRadarwithEventGUI
+from GUI.ConfigRadarDetials import ConfigRadarDetials
 from PyQt5.QtWidgets import QMainWindow, QAbstractItemView, QTableWidgetItem, QMenu
 
 
@@ -47,7 +48,6 @@ class GUISetup(QMainWindow):
         create_radar_dialog.show()
         value = create_radar_dialog.exec_()
         if value:
-            print(value)
             self.primary_radar.append(value)
             row = self.table.rowCount()
             self.table.setRowCount(row + 1)
@@ -62,8 +62,11 @@ class GUISetup(QMainWindow):
 
     # 对删除所有雷达信号的响应
     def delete_all_radar(self):
-        self.table.setRowCount(0);
-        self.table.clearContents();
+        self.primary_radar = []
+        self.signals = []
+        self.table.setRowCount(0)
+        self.table.clearContents()
+
     # 增加右键菜单
     def custom_right_menu(self, pos):
         # 创建表格
@@ -73,11 +76,19 @@ class GUISetup(QMainWindow):
         action = menu.exec_(self.table.mapToGlobal(pos))
         if action == opt1:
             # do something
-            print("配置雷达参数")
+            row_index = self.table.currentRow()
+            current_radar = self.primary_radar[row_index]
+            configDetailsDialog = ConfigRadarDetials(current_radar.pri_type, current_radar.fs_type)
+            configDetailsDialog.show()
+            value = configDetailsDialog.exec_()
+
+
         elif action == opt2:
             # 获取雷达参数并进行删除
             row_index = self.table.currentRow()
             if row_index != -1:
+                self.primary_radar.pop(row_index)
+                self.signals.pop(row_index)
                 self.table.removeRow(row_index)
 
 
