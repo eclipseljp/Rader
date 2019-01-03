@@ -81,6 +81,9 @@ class GUISetup(QMainWindow):
             configDetailsDialog = ConfigRadarDetials(current_radar.pri_type, current_radar.fs_type)
             configDetailsDialog.show()
             value = configDetailsDialog.exec_()
+            if value:
+                print("正确接收到value")
+                print(value)
 
 
         elif action == opt2:

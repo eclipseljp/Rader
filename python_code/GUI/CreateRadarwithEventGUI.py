@@ -19,6 +19,7 @@ class CreateRadarwithEventGUI(QDialog, Ui_Dialog):
         self.sure.clicked.connect(self.saveEvent)
         self.pushButton_2.clicked.connect(self.cancelEvent)
         self.signal_type = None
+        self.createdRadar = None
 
     # 保存按钮的函数
     def saveEvent(self):

@@ -62,3 +62,9 @@ class ConfigRadarDetials(QDialog):
                 self.group_fs_text.setText("例: 210, 220, 230")
                 layout.addRow(QLabel("频率分集的频点:"), self.group_fs_text)
         self.formGroupBox.setLayout(layout)
+
+    # 重载退出函数
+    def exec_(self):
+        super(ConfigRadarDetials, self).exec_()
+        # todo 进行信号格式转换，得到所需要的格式
+        return "caocongcong"
