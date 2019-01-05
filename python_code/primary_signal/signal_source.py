@@ -579,6 +579,9 @@ class signal_source:
         signal = np.sin(2 * np.pi * begin_fs * t + np.pi * k * t * t)
         return signal
 
+    def __str__(self):
+        return "DOA: " + str(self.DOA)+ "  PW: " + str(self.pw)\
+               + "  fs_type: " + str(self.FS_type_need) + "  pri_type: "+ str(self.PRI_type_need)
 
 if __name__ == "__main__":
     pass

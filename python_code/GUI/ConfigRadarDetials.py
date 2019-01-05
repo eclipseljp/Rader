@@ -17,7 +17,7 @@ class ConfigRadarDetials(QDialog):
         self.fs_type = fs_type
 
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttonBox.accepted.connect(self.save_event )
+        buttonBox.accepted.connect(self.save_event)
         buttonBox.rejected.connect(self.reject)
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.formGroupBox)

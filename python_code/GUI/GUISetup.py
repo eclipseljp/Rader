@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 from GUI.mainGUI import Ui_MainWindow
 from GUI.CreateRadarwithEventGUI import CreateRadarwithEventGUI
 from GUI.ConfigRadarDetials import ConfigRadarDetials
-from PyQt5.QtWidgets import QMainWindow, QAbstractItemView, QTableWidgetItem, QMenu
+from PyQt5.QtWidgets import QMainWindow, QAbstractItemView, QTableWidgetItem, QMenu, QFileDialog, QAction
 
 
 class GUISetup(QMainWindow):
@@ -16,12 +16,28 @@ class GUISetup(QMainWindow):
         self.main_ui = Ui_MainWindow()
         # 整体界面进行初始化
         self.main_ui.setupUi(self)
+        self.bar_init()
+
+
         # 初始化表格
         self.table_init()
         # 为空间增加事件
         self.add_event()
         self.primary_radar= []
         self.signals = []
+
+
+    # 进行状态栏和菜单栏的初始化
+    def bar_init(self):
+        self.statusBar().showMessage('当前状态:参数配置')
+
+        exitAction = QAction('&仿真开始', self)
+        exitAction.setStatusTip('仿真开始')
+        exitAction.triggered.connect(self.begin_simu)
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&仿真控制')
+        fileMenu.addAction(exitAction)
 
 
     # 进行表格的初始化
@@ -41,6 +57,8 @@ class GUISetup(QMainWindow):
     def add_event(self):
         self.main_ui.create_radar.clicked.connect(self.addSignalEvent)
         self.main_ui.pushButton_2.clicked.connect(self.delete_all_radar)
+        self.main_ui.signal_button.clicked.connect(self.get_signal_file_path)
+        self.main_ui.pdw_button.clicked.connect(self.get_pdw_file_path)
 
     # 对增加信号按钮的响应
     def addSignalEvent(self):
@@ -83,7 +101,7 @@ class GUISetup(QMainWindow):
             value = configDetailsDialog.exec_()
             if value:
                 print("正确接收到value")
-                print(value)
+                print(str(value))
 
 
         elif action == opt2:
@@ -94,8 +112,20 @@ class GUISetup(QMainWindow):
                 self.signals.pop(row_index)
                 self.table.removeRow(row_index)
 
+    def get_signal_file_path(self):
+        dir_name = QFileDialog.getExistingDirectory(self, 'Select Directory')
+        if dir_name:
+            self.main_ui.lineEdit_4.setText(dir_name)
+            print(dir_name)
 
+    def get_pdw_file_path(self):
+        dir_name = QFileDialog.getExistingDirectory(self, 'Select Directory')
+        if dir_name:
+            self.main_ui.lineEdit_3.setText(dir_name)
+            print(dir_name)
 
+    def begin_simu(self):
+        print("开始仿真")
 
 
 
