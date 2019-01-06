@@ -6,8 +6,10 @@ from PyQt5.QtCore import Qt
 from GUI.mainGUI import Ui_MainWindow
 from GUI.CreateRadarwithEventGUI import CreateRadarwithEventGUI
 from GUI.ConfigRadarDetials import ConfigRadarDetials
-from PyQt5.QtWidgets import QMainWindow, QAbstractItemView, QTableWidgetItem, QMenu, QFileDialog, QAction
-
+from PyQt5.QtWidgets import QMainWindow, QAbstractItemView, QTableWidgetItem, QMenu, QFileDialog, QAction, QMessageBox
+from primary_signal.get_primary_signal import priamry_signal
+from primary_signal.ADC import AD
+from primary_signal.const_value import constValue
 
 class GUISetup(QMainWindow):
 
@@ -59,6 +61,8 @@ class GUISetup(QMainWindow):
         self.main_ui.pushButton_2.clicked.connect(self.delete_all_radar)
         self.main_ui.signal_button.clicked.connect(self.get_signal_file_path)
         self.main_ui.pdw_button.clicked.connect(self.get_pdw_file_path)
+        self.main_ui.pushButton_4.clicked.connect(self.save_setting)
+        self.main_ui.pushButton_3.clicked.connect(self.config_setting)
 
     # 对增加信号按钮的响应
     def addSignalEvent(self):
@@ -124,10 +128,49 @@ class GUISetup(QMainWindow):
             self.main_ui.lineEdit_3.setText(dir_name)
             print(dir_name)
 
+
     def begin_simu(self):
-        print("开始仿真")
+        try:
+            self.statusBar().showMessage("仿真进行中")
+            # 进行模拟信号的产生
+            priamry_signal_test = priamry_signal(self.signals, self.simu_time)
+            # 写入原始数据
+            # priamry_signal_test.write_data("..\data\primary_data.txt")
+            constValue.
+            priamry_signal_test.show_data(1000, 2000)
+            tmp_AD = AD(priamry_signal_test.primary_data, self.simu_time, constValue.frame_length)
+            tmp_AD.AD_data()
+        except:
+            QMessageBox.about(self, "错误提示", "仿真发生错误，可能是参数设置或者其他错误")
 
 
 
+    def save_setting(self):
+        self.SNR = self.main_ui.SNR_Data.text()
+        self.simu_time = self.main_ui.lineEdit_2.text()
+        self.ad_fs_band = []
+        if self.main_ui.low_ad_fs.isChecked():
+            self.ad_fs_band.append(200)
+        if self.main_ui.mid_ad_fs.isChecked():
+            self.ad_fs_band.append(600)
+        if self.main_ui.high_ad_fs.isChecked():
+            self.ad_fs_band.append(1000)
+        self.pdw_write_path = self.main_ui.lineEdit_3.text()
+        self.priamry_write_path = self.main_ui.lineEdit_4.text()
 
+        self.main_ui.SNR_Data.setDisabled(True)
+        self.main_ui.lineEdit_2.setDisabled(True)
+        self.main_ui.low_ad_fs.setDisabled(True)
+        self.main_ui.mid_ad_fs.setDisabled(True)
+        self.main_ui.high_ad_fs.setDisabled(True)
+        self.main_ui.lineEdit_3.setDisabled(True)
+        self.main_ui.lineEdit_4.setDisabled(True)
 
+    def config_setting(self):
+        self.main_ui.SNR_Data.setEnabled(True)
+        self.main_ui.lineEdit_2.setEnabled(True)
+        self.main_ui.low_ad_fs.setEnabled(True)
+        self.main_ui.mid_ad_fs.setEnabled(True)
+        self.main_ui.high_ad_fs.setEnabled(True)
+        self.main_ui.lineEdit_3.setEnabled(True)
+        self.main_ui.lineEdit_4.setEnabled(True)

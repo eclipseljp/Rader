@@ -1,8 +1,6 @@
 __author__ = 'caocongcong'
 from primary_signal.signal_source import signal_source
 from primary_signal.ADC import AD
-import numpy as np
-import matplotlib.pyplot as plt
 from primary_signal.get_primary_signal import priamry_signal
 
 

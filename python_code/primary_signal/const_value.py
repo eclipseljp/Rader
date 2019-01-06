@@ -43,4 +43,7 @@ class constValue():
     fft_number = 60
 
     # 记录原始PDW字的目录
-    primary_pdw_path = "..\data\PWD_Primary.csv"
+    # primary_pdw_path = "..\data\PWD_Primary.csv"
+
+    # 每帧的时宽
+    frame_length = 50
