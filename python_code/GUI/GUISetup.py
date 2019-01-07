@@ -104,7 +104,7 @@ class GUISetup(QMainWindow):
             configDetailsDialog.show()
             value = configDetailsDialog.exec_()
             if value:
-                print("正确接收到value")
+                self.signals.append(value)
                 print(str(value))
 
 
@@ -130,24 +130,27 @@ class GUISetup(QMainWindow):
 
 
     def begin_simu(self):
-        try:
-            self.statusBar().showMessage("仿真进行中")
+        # try:
+        self.statusBar().showMessage("仿真进行中")
             # 进行模拟信号的产生
-            priamry_signal_test = priamry_signal(self.signals, self.simu_time)
+        print("开始产生模拟信号")
+        priamry_signal_test = priamry_signal(self.signals, self.simu_time)
             # 写入原始数据
             # priamry_signal_test.write_data("..\data\primary_data.txt")
-            constValue.
-            priamry_signal_test.show_data(1000, 2000)
-            tmp_AD = AD(priamry_signal_test.primary_data, self.simu_time, constValue.frame_length)
-            tmp_AD.AD_data()
-        except:
-            QMessageBox.about(self, "错误提示", "仿真发生错误，可能是参数设置或者其他错误")
+        # priamry_signal_test.show_data(1000, 2000)
+        print("模拟信号产生完毕，开始采样")
+        tmp_AD = AD(priamry_signal_test.primary_data, self.simu_time, constValue.frame_length)
+        tmp_AD.AD_data()
+        print("采样成功")
+        # except Exception as e :
+        #     print(e)
+        #     QMessageBox.about(self, "错误提示", "仿真发生错误，可能是参数设置或者其他错误")
 
 
 
     def save_setting(self):
-        self.SNR = self.main_ui.SNR_Data.text()
-        self.simu_time = self.main_ui.lineEdit_2.text()
+        self.SNR = int(self.main_ui.SNR_Data.text())
+        self.simu_time = int(self.main_ui.lineEdit_2.text())
         self.ad_fs_band = []
         if self.main_ui.low_ad_fs.isChecked():
             self.ad_fs_band.append(200)
