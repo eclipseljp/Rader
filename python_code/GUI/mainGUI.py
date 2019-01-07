@@ -172,7 +172,7 @@ class Ui_MainWindow(object):
         self.high_ad_fs.setText(_translate("MainWindow", "800-1200M"))
         self.label_4.setText(_translate("MainWindow", "(dB)"))
         self.label_5.setText(_translate("MainWindow", "仿真时间:"))
-        self.label_6.setText(_translate("MainWindow", "(us)"))
+        self.label_6.setText(_translate("MainWindow", "(ms)"))
         self.label_8.setText(_translate("MainWindow", "PDW输出目录:"))
         self.pdw_button.setText(_translate("MainWindow", "选择"))
         self.signal_button.setText(_translate("MainWindow", "选择"))
@@ -184,7 +184,7 @@ class Ui_MainWindow(object):
         self.label_11.setText(_translate("MainWindow", "起始时间:"))
         self.label_12.setText(_translate("MainWindow", "结束时间:"))
         self.label_14.setText(_translate("MainWindow", "us"))
-        self.label_15.setText(_translate("MainWindow", "ms"))
+        self.label_15.setText(_translate("MainWindow", "us"))
         self.pushButton_3.setText(_translate("MainWindow", "修改"))
         self.pushButton_4.setText(_translate("MainWindow", "保存"))
 
