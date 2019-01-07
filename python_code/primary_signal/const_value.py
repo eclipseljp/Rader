@@ -47,3 +47,7 @@ class constValue():
 
     # 记录得到的PDW字的目录
     pdw_path = "..\data\PDW.csv"
+    # primary_pdw_path = "..\data\PWD_Primary.csv"
+
+    # 每帧的时宽
+    frame_length = 50

@@ -1,8 +1,6 @@
 __author__ = 'caocongcong'
 from primary_signal.signal_source import signal_source
 from primary_signal.ADC import AD
-import numpy as np
-import matplotlib.pyplot as plt
 from primary_signal.get_primary_signal import priamry_signal
 
 
@@ -38,7 +36,7 @@ def get_signals():
     # 频率抖动和脉组重频
     # test_signal = signal_source(0.4, 30, 2,  [50, 10], 3, [100, 10, 0.4])
     # 频率分集和抖动重频
-    # test_signal = signal_source(0.4, 30, 3,  [50, 55, 60, 65, 70], 2, [100, 0.4])
+    # test_signal = signal_source(0.4, 30, 3,  [50, 55, 60, 5, 70], 2, [100, 0.4])
     # 频率分集和脉组重频
     # test_signal = signal_source(0.4, 30, 3,  [50, 55, 60, 65, 70], 3, [100, 10, 0.4])
     # 频率脉组捷变和抖动重频
