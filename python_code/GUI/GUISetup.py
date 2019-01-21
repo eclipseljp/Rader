@@ -150,7 +150,7 @@ class GUISetup(QMainWindow):
 
     def save_setting(self):
         self.SNR = int(self.main_ui.SNR_Data.text())
-        self.simu_time = int(self.main_ui.lineEdit_2.text())
+        self.simu_time = int(self.main_ui.lineEdit_2.text())*1000
         self.ad_fs_band = []
         if self.main_ui.low_ad_fs.isChecked():
             self.ad_fs_band.append(200)

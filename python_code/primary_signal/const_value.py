@@ -50,4 +50,4 @@ class constValue():
     # primary_pdw_path = "..\data\PWD_Primary.csv"
 
     # 每帧的时宽
-    frame_length = 50
+    frame_length = 5000
