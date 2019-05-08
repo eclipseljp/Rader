@@ -1,7 +1,7 @@
 """
 @author:caocongcong
 """
-from generate_signal.genrate_pri.pri_factory import pri_factory
+from generate_signal.genrate_pri.PriFactory import pri_factory
 from generate_signal.constant.pri_type_enum import PRI_type_enum
 
 

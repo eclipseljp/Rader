@@ -6,7 +6,7 @@ from generate_signal.generate_frame_signal.frame_genrate_implament.generate_sing
 from generate_signal.generate_frame_signal.frame_genrate_implament.genrate_lfm_frame import genrate_lfm_signal
 
 
-class frame_generate_factory:
+class FrameGenerateFactory:
     def __int__(self):
         self.generator = None
 
