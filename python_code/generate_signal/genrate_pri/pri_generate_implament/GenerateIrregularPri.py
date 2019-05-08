@@ -9,7 +9,7 @@ class GenerateIrregular(PriGenerator):
     进行捷变雷达生成
     '''
 
-    def product_pri(self, simu_time, pw, signal_pris):
+    def product_pri(self, simu_time, pw, signal_pris, begin_time):
         '''
         进行PRI生成
         :param simu_time: 仿真的总体时间
@@ -18,7 +18,10 @@ class GenerateIrregular(PriGenerator):
         :return: 具体的PRI序列
         '''
         pri_data = []
-        start_time = self.get_start_time(signal_pris[0])
+        if begin_time == 0:
+            start_time = self.get_start_time(signal_pris[0])
+        else:
+            start_time = begin_time
         # 当前时间就是起始时间
         current_time = start_time
         # pri的计数器

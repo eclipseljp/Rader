@@ -27,7 +27,7 @@ class GenerateJitterPri(PriGenerator):
                                     round((jitter_value * 2 + 0.0) / jitter_number,
                                           generate_setting_constant.pri_accuracy))
 
-    def product_pri(self, simu_time, pw, pri_value, jitter_vaule, jitter_number):
+    def product_pri(self, simu_time, pw, pri_value, jitter_vaule, jitter_number, begin_time):
         '''
         进行PRI捷变的生成
         :param simu_time: 仿真总时间
@@ -40,7 +40,10 @@ class GenerateJitterPri(PriGenerator):
         pri_data = []
 
         # 生成重频的过程
-        start_time = get_start_time(pri_value)
+        if begin_time == 0:
+            start_time = get_start_time(pri_value)
+        else:
+            start_time = begin_time
         # 保留两位
         # print("当前生成的起始时间", start_time)
         current_time = start_time

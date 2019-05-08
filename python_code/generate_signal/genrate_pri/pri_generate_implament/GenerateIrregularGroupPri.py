@@ -2,12 +2,16 @@
 @author:caocongcong
 """
 from generate_signal.genrate_pri.PriGenerator import PriGenerator
+from generate_signal.genrate_pri.pri_generate_implament.PriGeneratorUtil import get_start_time
 
 
 class GenerateIrregularGroupPri(PriGenerator):
-    def product_pri(self, simu_time, pw, group_number, signal_pris):
+    def product_pri(self, simu_time, pw, group_number, signal_pris, begin_time):
         pri_data = []
-        start_time = self.get_start_time(signal_pris[0])
+        if begin_time == 0:
+            start_time = get_start_time(signal_pris[0])
+        else:
+            start_time = begin_time
         # 当前时间就是起始时间
         current_time = start_time
         # pri的计数器

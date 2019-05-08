@@ -10,7 +10,7 @@ class GenerateFixedPri(PriGenerator):
     进行固定重频的生成
     '''
 
-    def product_pri(self, simu_time, pw, signal_pri):
+    def product_pri(self, simu_time, pw, signal_pri, begin_time):
         '''
         固定重频生成的实现函数
         :param simu_time: 整个系统仿真时间
@@ -21,7 +21,10 @@ class GenerateFixedPri(PriGenerator):
         pri_data = []
 
         # 生成重频的过程
-        start_time = get_start_time(signal_pri)
+        if begin_time == 0:
+            start_time = get_start_time(signal_pri)
+        else:
+            start_time = begin_time
         # 保留两位
         # print("当前生成的起始时间", start_time)
         current_time = start_time
